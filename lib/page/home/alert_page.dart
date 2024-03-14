@@ -30,13 +30,13 @@ class _AlertPageState extends State<AlertPage> {
   String? selectedValue;
   String dateString = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  DateTime? _dateTime;
+  // DateTime? _dateTime;
 
   @override
   void initState() {
     super.initState();
     log(dateString);
-    _dateTime = DateTime.parse(dateString);
+    // _dateTime = DateTime.parse(dateString);
   }
 
   @override
@@ -63,7 +63,7 @@ class _AlertPageState extends State<AlertPage> {
                       ),
                     ),
                     Spacer(),
-                    text_widget("Alerts",
+                    textWidget("Alerts",
                         fontSize: 19.sp, fontWeight: FontWeight.w700)
                   ],
                 ),
@@ -79,12 +79,12 @@ class _AlertPageState extends State<AlertPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      text_widget("Set the Alert timing before the pickup",
+                      textWidget("Set the Alert timing before the pickup",
                           fontSize: 16.5.sp),
                       SizedBox(height: 3.h),
                       hourMinute12H(),
                       SizedBox(height: 5.h),
-                      text_widget(
+                      textWidget(
                         "Set Tune",
                         color: Color(0xff761E37),
                       ),
@@ -187,7 +187,7 @@ class _AlertPageState extends State<AlertPage> {
               // isForce2Digits: true,
               onTimeChange: (time) {
                 setState(() {
-                  _dateTime = time;
+                  // _dateTime = time;
                 });
               },
             ),
@@ -195,10 +195,10 @@ class _AlertPageState extends State<AlertPage> {
             Row(
               children: [
                 Spacer(),
-                text_widget("hrs",
+                textWidget("hrs",
                     color: Color(0xffE8A04C), fontWeight: FontWeight.w600),
                 SizedBox(width: 12.w),
-                text_widget("mins",
+                textWidget("mins",
                     color: Color(0xffE8A04C), fontWeight: FontWeight.w600),
                 Spacer(),
               ],

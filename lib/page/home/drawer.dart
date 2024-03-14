@@ -17,7 +17,6 @@ import 'package:wasteapp/page/home/support_page.dart';
 import 'package:wasteapp/page/home/terms_page.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
-
 List titles = [
   "Home",
   "Contact Support",
@@ -27,7 +26,6 @@ List titles = [
   "Change Password",
   "Feedback",
   "Notification",
-
 
   // "Setting",
 ];
@@ -40,7 +38,6 @@ List images = [
   "assets/icons/d5.png",
   "assets/icons/d6.png",
   "assets/icons/d7.png",
- 
 ];
 
 class UserDrawer extends StatefulWidget {
@@ -58,7 +55,6 @@ class _UserDrawerState extends State<UserDrawer> {
     return GetBuilder<MyDrawerController>(
       init: MyDrawerController(),
       builder: (MyDrawerController _) => Stack(
-        
         children: [
           Positioned.fill(child: Image.asset("assets/images/dr.png")),
           Positioned.fill(
@@ -90,10 +86,11 @@ class _UserDrawerState extends State<UserDrawer> {
                         ? Positioned.fill(
                             child: SafeArea(
                                 child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 24.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 24.0),
                                     child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Row(children: [
@@ -102,14 +99,16 @@ class _UserDrawerState extends State<UserDrawer> {
                                                   _.closeDrawer();
                                                 },
                                                 child: const Icon(
-                                                    Icons.arrow_back_ios_new_rounded,
+                                                    Icons
+                                                        .arrow_back_ios_new_rounded,
                                                     color: Colors.white)),
                                             const Spacer(),
                                           ]),
                                           SizedBox(height: 2.h),
                                           Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 12.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12.0),
                                               child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -117,27 +116,29 @@ class _UserDrawerState extends State<UserDrawer> {
                                                     Row(
                                                       children: [
                                                         CircleAvatar(
-                                                            radius: 3.6.h,
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                           backgroundImage: AssetImage("assets/images/boy.png"),),
+                                                          radius: 3.6.h,
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          backgroundImage:
+                                                              AssetImage(
+                                                                  "assets/images/boy.png"),
+                                                        ),
                                                       ],
                                                     ),
                                                     SizedBox(height: 1.h),
-                                                   text_widget("Hey, 👋",
-                                                            color: Colors.white,
-                                                            fontSize: 16.sp),
+                                                    textWidget("Hey, 👋",
+                                                        color: Colors.white,
+                                                        fontSize: 16.sp),
                                                     SizedBox(height: 1.h),
-                                                 text_widget(
-                                                         "John Bruce",
-                                                            fontSize: 15.5.sp,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.w600)
+                                                    textWidget("John Bruce",
+                                                        fontSize: 15.5.sp,
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w600)
                                                   ]))
                                         ]))))
                         : const SizedBox(),
-                    _.open 
+                    _.open
                         ? Positioned.fill(
                             child: Align(
                                 alignment: Alignment.bottomLeft,
@@ -150,10 +151,10 @@ class _UserDrawerState extends State<UserDrawer> {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                         
                                             InkWell(
-                                              onTap: (){
-                                                Get.find<MyDrawerController>().closeDrawer();
+                                              onTap: () {
+                                                Get.find<MyDrawerController>()
+                                                    .closeDrawer();
                                                 Get.to(LoginPage());
                                               },
                                               child: Container(
@@ -165,12 +166,12 @@ class _UserDrawerState extends State<UserDrawer> {
                                                         BorderRadius.circular(
                                                             40)),
                                                 child: Center(
-                                                  child: text_widget("Logout",
+                                                  child: textWidget("Logout",
                                                       fontSize: 14.sp),
                                                 ),
                                               ),
                                             )
-                                         ],
+                                          ],
                                         )))))
                         : const SizedBox()
                   ]);
@@ -186,26 +187,17 @@ class _UserDrawerState extends State<UserDrawer> {
       case 0:
         return HomePage();
       case 1:
-        return CustomerSupport(
-         
-        );
+        return CustomerSupport();
       case 2:
-        return EditProfile(
-         
-        );
+        return EditProfile();
 
       case 3:
-        return TermsPage(
-         
-        );
+        return TermsPage();
       case 4:
-        return ChangePassword(
-         
-        );
+        return ChangePassword();
       case 5:
         return GiveReview(
           isDrawer: true,
-         
         );
       case 6:
         return NotificationScreen(
@@ -257,7 +249,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                                         _.update();
                                                         log(_.active
                                                             .toString());
-                                                       
+
                                                         ZoomDrawer.of(context)!
                                                             .close();
                                                       });
@@ -265,7 +257,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                                     child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .symmetric(
+                                                                .symmetric(
                                                                 vertical: 6.0),
                                                         child: Container(
                                                             height: 4.6.h,
@@ -288,12 +280,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                                               Image.asset(
                                                                 images[index],
                                                                 height: 2.2.h,
-                                                                color:  _.active ==
-                                                                            index
-                                                                        ? MyColors
-                                                                            .primary
-                                                                        : Colors
-                                                                            .white,
+                                                                color: _
+                                                                            .active ==
+                                                                        index
+                                                                    ? MyColors
+                                                                        .primary
+                                                                    : Colors
+                                                                        .white,
                                                               ),
                                                               SizedBox(
                                                                   width: 4.w),
@@ -321,11 +314,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
 }
 
 class MyDrawerController extends GetxController {
-  @override
   final zoomDrawerController = ZoomDrawerController();
   bool open = false;
   void toggleDrawer() {
-    print("Toggle drawer");
+    debugPrint("Toggle drawer");
     Timer(const Duration(microseconds: 30), () {
       open = true;
 
@@ -338,10 +330,9 @@ class MyDrawerController extends GetxController {
   int active = 0;
 
   void closeDrawer() {
-    print("Close drawer");
+    debugPrint("Close drawer");
     Timer(const Duration(microseconds: 800), () {
       open = false;
-   
 
       update();
     });

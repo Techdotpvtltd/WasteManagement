@@ -37,7 +37,7 @@ class _EditProfileState extends State<EditProfile> {
                             child: Image.asset("assets/icons/draw.png",
                                 height: 1.8.h)),
                         Spacer(),
-                        text_widget("Edit Profile",
+                        textWidget("Edit Profile",
                             fontSize: 17.5.sp, fontWeight: FontWeight.w700)
                       ],
                     ),

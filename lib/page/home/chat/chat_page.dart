@@ -13,12 +13,12 @@ class UserChatPage extends StatefulWidget {
     super.key,
   });
   @override
-  _UserChatPageState createState() => _UserChatPageState();
+  UserChatPageState createState() => UserChatPageState();
 }
 
-TextEditingController cont = TextEditingController();
+class UserChatPageState extends State<UserChatPage> {
+  TextEditingController cont = TextEditingController();
 
-class _UserChatPageState extends State<UserChatPage> {
   @override
   Widget build(BuildContext context) => Stack(children: [
         Scaffold(
@@ -49,7 +49,7 @@ class _UserChatPageState extends State<UserChatPage> {
                         height: 4.h,
                       ),
                       SizedBox(width: 1.5.w),
-                      text_widget("Chats",
+                      textWidget("Chats",
                           fontSize: 19.sp, fontWeight: FontWeight.w700)
                     ],
                   ),
@@ -66,7 +66,7 @@ class _UserChatPageState extends State<UserChatPage> {
         child: Column(children: [
           // isService?    serviceWidget(context,isPrice: false,isEdit: false):SizedBox(),
           SizedBox(height: 3.h),
-          text_widget("Today", fontSize: 15.sp),
+          textWidget("Today", fontSize: 15.sp),
           _buildContainer(context)
         ]),
       );
@@ -80,7 +80,7 @@ class _UserChatPageState extends State<UserChatPage> {
   Widget _messagesList(BuildContext context) => ListView.builder(
       padding: const EdgeInsets.all(0),
       itemCount: 7,
-      itemBuilder: (BuildContext context, int index) => Bubble(
+      itemBuilder: (BuildContext context, int index) => BubbleWidget(
           index == 1 || index == 3 || index == 6, index,
           voice: index == 4 || index == 5));
 }

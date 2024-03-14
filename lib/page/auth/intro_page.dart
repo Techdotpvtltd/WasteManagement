@@ -93,7 +93,7 @@ class _IntroPageState extends State<IntroPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 1.h),
-                        text_widget(
+                        textWidget(
                             index == 0
                                 ? "Get Pickup Alerts"
                                 : index == 1
@@ -103,7 +103,7 @@ class _IntroPageState extends State<IntroPage> {
                             fontSize: 19.sp,
                             fontWeight: FontWeight.w800),
                         SizedBox(height: 1.h),
-                        text_widget(
+                        textWidget(
                           "Michard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,",
                           color: Color(0xff000000),
                           fontSize: 15.sp,

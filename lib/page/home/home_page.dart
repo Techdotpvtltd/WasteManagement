@@ -71,15 +71,15 @@ class HomePage extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              text_widget("Next Pick-up ",
+                              textWidget("Next Pick-up ",
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xffFFFCF9).withOpacity(0.51),
                                   fontSize: 15.sp),
-                              text_widget("9h 43min",
+                              textWidget("9h 43min",
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 22.sp),
-                              text_widget(
+                              textWidget(
                                 "10:43pm ",
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class HomePage extends StatelessWidget {
                       SizedBox(width: 5.w),
                       Image.asset("assets/icons/bell1.png", height: 4.h),
                       SizedBox(width: 4.w),
-                      text_widget("Alerts",
+                      textWidget("Alerts",
                           color: Color(0xff761E37),
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w600),
@@ -126,7 +126,7 @@ class HomePage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 22.0, vertical: 2),
                             child: Center(
-                              child: text_widget("10 Minutes",
+                              child: textWidget("10 Minutes",
                                   fontSize: 11.3.sp, color: Colors.white),
                             ),
                           ),
@@ -161,7 +161,7 @@ class HomePage extends StatelessWidget {
                                 height: 3.3.h,
                               ),
                               SizedBox(width: 3.w),
-                              text_widget(
+                              textWidget(
                                 "Special\nRequests",
                                 fontSize: 16.sp,
                               ),
@@ -195,12 +195,12 @@ class HomePage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  text_widget(
+                                  textWidget(
                                     "Chats",
                                     fontSize: 16.sp,
                                   ),
                                   SizedBox(height: 0.3.h),
-                                  text_widget("2 New Chats",
+                                  textWidget("2 New Chats",
                                       color: MyColors.primary, fontSize: 13.sp),
                                 ],
                               ),
@@ -227,7 +227,7 @@ class HomePage extends StatelessWidget {
                           children: [
                             Image.asset("assets/icons/rule.png", height: 2.8.h),
                             SizedBox(width: 3.w),
-                            text_widget("Rules & Guidelines", fontSize: 16.sp),
+                            textWidget("Rules & Guidelines", fontSize: 16.sp),
                           ],
                         ),
                         SizedBox(height: 1.h),
@@ -236,42 +236,42 @@ class HomePage extends StatelessWidget {
                           thickness: 0.2.w,
                         ),
                         SizedBox(height: 1.7.h),
-                        text_widget("Rule #1:",
+                        textWidget("Rule #1:",
                             fontSize: 14.5.sp,
                             color: Color(0xffD45640),
                             fontWeight: FontWeight.w800),
                         SizedBox(height: 0.4.h),
-                        text_widget(
+                        textWidget(
                             "ichard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,",
                             fontSize: 13.6.sp,
                             fontWeight: FontWeight.w400),
                         SizedBox(height: 1.7.h),
-                        text_widget("Rule #2:",
+                        textWidget("Rule #2:",
                             fontSize: 14.5.sp,
                             color: Color(0xffD45640),
                             fontWeight: FontWeight.w800),
                         SizedBox(height: 0.4.h),
-                        text_widget(
+                        textWidget(
                             "ichard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,",
                             fontSize: 13.6.sp,
                             fontWeight: FontWeight.w400),
                         SizedBox(height: 1.7.h),
-                        text_widget("Rule #3:",
+                        textWidget("Rule #3:",
                             fontSize: 14.5.sp,
                             color: Color(0xffD45640),
                             fontWeight: FontWeight.w800),
                         SizedBox(height: 0.4.h),
-                        text_widget(
+                        textWidget(
                             "ichard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,",
                             fontSize: 13.6.sp,
                             fontWeight: FontWeight.w400),
                         SizedBox(height: 1.7.h),
-                        text_widget("Rule #4:",
+                        textWidget("Rule #4:",
                             fontSize: 14.5.sp,
                             color: Color(0xffD45640),
                             fontWeight: FontWeight.w800),
                         SizedBox(height: 0.4.h),
-                        text_widget(
+                        textWidget(
                             "ichard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,",
                             fontSize: 13.6.sp,
                             fontWeight: FontWeight.w400),
