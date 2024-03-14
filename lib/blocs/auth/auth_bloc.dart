@@ -5,7 +5,6 @@ import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 
 import '../../exceptions/app_exceptions.dart';
 import '../../exceptions/auth_exceptions.dart';
-import '../../exceptions/data_exceptions.dart';
 import '../../page/auth/splash_screen.dart';
 import '../../repos/auth_repo.dart';
 import '../../repos/user_repo.dart';

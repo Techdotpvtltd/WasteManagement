@@ -7,7 +7,6 @@ import 'package:wasteapp/blocs/auth/auth_state.dart';
 import 'package:wasteapp/blocs/user/user_bloc.dart';
 import 'package:wasteapp/page/auth/splash_screen.dart';
 import 'package:wasteapp/page/home/drawer.dart';
-import 'package:wasteapp/repos/user_repo.dart';
 
 import 'firebase_options.dart';
 import 'manager/app_bloc_observer.dart';

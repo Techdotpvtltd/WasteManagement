@@ -11,7 +11,6 @@ import 'package:wasteapp/blocs/auth/auth_bloc.dart';
 import 'package:wasteapp/blocs/auth/auth_event.dart';
 import 'package:wasteapp/config/colors.dart';
 import 'package:wasteapp/page/auth/change_password.dart';
-import 'package:wasteapp/page/auth/login_page.dart';
 import 'package:wasteapp/page/home/edit_profile.dart';
 import 'package:wasteapp/page/home/give_review.dart';
 import 'package:wasteapp/page/home/home_page.dart';

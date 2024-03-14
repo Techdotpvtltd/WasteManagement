@@ -12,6 +12,8 @@ import 'package:wasteapp/utilities/dialogs/loaders.dart';
 import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
+import '../../utilities/constants/constants.dart';
+import '../../widgets/social_icon_button.dart';
 import '../../widgets/txt_field.dart';
 import 'addtional_info.dart';
 
@@ -169,14 +171,23 @@ class _SingupPageState extends State<SingupPage> {
                     Image.asset("assets/icons/or.png", fit: BoxFit.fill),
                     SizedBox(height: 4.h),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Spacer(),
-                        Image.asset("assets/icons/fb.png", height: 6.h),
-                        SizedBox(width: 4.w),
-                        Image.asset("assets/icons/apple.png", height: 6.h),
-                        SizedBox(width: 4.w),
-                        Image.asset("assets/icons/google.png", height: 6.h),
-                        Spacer(),
+                        SocialIconButton(
+                            onPressed: () {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(AuthEventAppleLogin());
+                            },
+                            icon: "assets/icons/apple-ic.svg"),
+                        gapW10,
+                        SocialIconButton(
+                            onPressed: () {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(AuthEventGoogleLogin());
+                            },
+                            icon: "assets/icons/google-ic.svg"),
                       ],
                     ),
                     SizedBox(height: 7.h),

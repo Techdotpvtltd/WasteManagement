@@ -8,9 +8,11 @@ import 'package:wasteapp/blocs/auth/auth_state.dart';
 import 'package:wasteapp/page/auth/forgot_password.dart';
 import 'package:wasteapp/page/auth/singup_page.dart';
 import 'package:wasteapp/page/home/drawer.dart';
+import 'package:wasteapp/utilities/constants/constants.dart';
 import 'package:wasteapp/utilities/dialogs/dialogs.dart';
 import 'package:wasteapp/utilities/dialogs/loaders.dart';
 import 'package:wasteapp/utilities/extensions/navigation_service.dart';
+import 'package:wasteapp/widgets/social_icon_button.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
@@ -181,14 +183,23 @@ class _LoginPageState extends State<LoginPage> {
                     Image.asset("assets/icons/or.png", fit: BoxFit.fill),
                     SizedBox(height: 4.h),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Spacer(),
-                        Image.asset("assets/icons/fb.png", height: 6.h),
-                        SizedBox(width: 4.w),
-                        Image.asset("assets/icons/apple.png", height: 6.h),
-                        SizedBox(width: 4.w),
-                        Image.asset("assets/icons/google.png", height: 6.h),
-                        Spacer(),
+                        SocialIconButton(
+                            onPressed: () {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(AuthEventAppleLogin());
+                            },
+                            icon: "assets/icons/apple-ic.svg"),
+                        gapW10,
+                        SocialIconButton(
+                            onPressed: () {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(AuthEventGoogleLogin());
+                            },
+                            icon: "assets/icons/google-ic.svg"),
                       ],
                     ),
                     SizedBox(height: 9.h),
