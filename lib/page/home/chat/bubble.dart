@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -6,8 +5,10 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../../../config/colors.dart';
 import '../../../widgets/txt_widget.dart';
 
-class Bubble extends StatelessWidget {
-  Bubble(this.me, this.index, {Key? key, this.voice = false}) : super(key: key);
+// ignore: must_be_immutable
+class BubbleWidget extends StatelessWidget {
+  BubbleWidget(this.me, this.index, {Key? key, this.voice = false})
+      : super(key: key);
   bool me, voice;
   int index;
 
@@ -58,78 +59,80 @@ class Bubble extends StatelessWidget {
                       Text('1:' '${index + 30}' ' PM',
                           style: GoogleFonts.roboto(
                               fontSize: 12.8.sp, color: MyColors.grey)),
-                              Spacer(),
-                              text_widget("Jenifer Alex",fontSize: 13.sp,
-                              fontWeight: FontWeight.w400,
-                              ),
-                              SizedBox(width: 2.w),
-                              CircleAvatar(
-                                radius: 1.4.h,
-                                backgroundColor: Colors.transparent,
-                                backgroundImage: AssetImage("assets/images/boy.png"),
-                              ),
+                      Spacer(),
+                      textWidget(
+                        "Jenifer Alex",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      SizedBox(width: 2.w),
+                      CircleAvatar(
+                        radius: 1.4.h,
+                        backgroundColor: Colors.transparent,
+                        backgroundImage: AssetImage("assets/images/boy.png"),
+                      ),
                     ],
                   ))
             ])
           : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(
-                // constraints: BoxConstraints(maxWidth: 43.w),
-                padding:
-                    EdgeInsets.symmetric(vertical: 2.5.w, horizontal: 1.w),
-                decoration: BoxDecoration(
-                    color: Color(0xffF7F7F7),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15))),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+              Container(
+                  // constraints: BoxConstraints(maxWidth: 43.w),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 2.5.w, horizontal: 1.w),
+                  decoration: BoxDecoration(
+                      color: Color(0xffF7F7F7),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                          bottomRight: Radius.circular(15))),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                  width: 50.w,
+                                  child: Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 0.0, left: 13),
+                                      child: Text(
+                                          'Hi, where have you been? Let’s do some fun!',
+                                          textDirection: TextDirection.ltr,
+                                          style: GoogleFonts.roboto(
+                                              fontSize: 14.sp,
+                                              color: me
+                                                  ? Colors.black
+                                                      .withOpacity(0.97)
+                                                  : Colors.black
+                                                      .withOpacity(0.7)))))
+                            ])
+                      ])),
+              Padding(
+                  padding: EdgeInsets.only(right: 12.0, top: 5),
+                  child: Row(
                     children: [
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                               width: 50.w,
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 0.0, left: 13),
-                                    child: Text(
-                                        'Hi, where have you been? Let’s do some fun!',
-                                        textDirection: TextDirection.ltr,
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 14.sp,
-                                            color: me
-                                                ? Colors.black
-                                                    .withOpacity(0.97)
-                                                : Colors.black
-                                                    .withOpacity(0.7)))))
-                          ])
-                    ])),
-          Padding(
-              padding: EdgeInsets.only(right: 12.0, top: 5),
-              child: Row(
-                children: [
-                    CircleAvatar(
-                            radius: 1.4.h,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: AssetImage("assets/images/boy.png"),
-                          ),
-                          SizedBox(width: 2.w),
-
-                  text_widget("Jenifer Alex",fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                          ),
-                        
-                          Spacer(),
-                  Text('1:' '${index + 30}' ' PM',
-                      style: GoogleFonts.roboto(
-                          fontSize: 12.8.sp, color: MyColors.grey)),
-                          
-                ],
-              ))
-          ]));
+                      CircleAvatar(
+                        radius: 1.4.h,
+                        backgroundColor: Colors.transparent,
+                        backgroundImage: AssetImage("assets/images/boy.png"),
+                      ),
+                      SizedBox(width: 2.w),
+                      textWidget(
+                        "Jenifer Alex",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      Spacer(),
+                      Text('1:' '${index + 30}' ' PM',
+                          style: GoogleFonts.roboto(
+                              fontSize: 12.8.sp, color: MyColors.grey)),
+                    ],
+                  ))
+            ]));
 }
 
+// ignore: must_be_immutable
 class Bubble2 extends StatelessWidget {
   Bubble2(this.me, this.index, {Key? key, this.voice = false})
       : super(key: key);

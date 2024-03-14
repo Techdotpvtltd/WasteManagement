@@ -24,7 +24,7 @@ class DoneReview extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  text_widget("Feedback Submit\nSuccessfully",
+                  textWidget("Feedback Submit\nSuccessfully",
                       color: Colors.white,
                       textAlign: TextAlign.center,
                       fontSize: 19.sp,

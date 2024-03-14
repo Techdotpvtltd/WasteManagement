@@ -38,8 +38,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                             child: Image.asset("assets/icons/draw.png",
                                 height: 1.8.h)),
                         Spacer(),
-                        text_widget("Change Password",
-                            fontSize:  17.5.sp, fontWeight: FontWeight.w700)
+                        textWidget("Change Password",
+                            fontSize: 17.5.sp, fontWeight: FontWeight.w700)
                       ],
                     ),
                     SizedBox(height: 8.h),

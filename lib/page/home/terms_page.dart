@@ -47,47 +47,47 @@ class _TermsPageState extends State<TermsPage> {
                     )),
                     SizedBox(height: 2.h),
                     Center(
-                      child: text_widget("Rules and Regulations",
+                      child: textWidget("Rules and Regulations",
                           fontWeight: FontWeight.w700),
                     ),
                     SizedBox(height: 4.h),
-                    text_widget(
+                    textWidget(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
                         color: Color(0xff1E1E1E),
                         fontSize: 13.8.sp,
                         fontWeight: FontWeight.w400),
                     SizedBox(height: 2.h),
-                    text_widget(
+                    textWidget(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
                         color: Color(0xff1E1E1E),
                         fontSize: 13.8.sp,
                         fontWeight: FontWeight.w400),
                     SizedBox(height: 2.h),
-                    text_widget("Changes to the Service and/or Terms:",
+                    textWidget("Changes to the Service and/or Terms:",
                         fontWeight: FontWeight.w600, fontSize: 16.sp),
                     SizedBox(height: 2.h),
-                    text_widget(
+                    textWidget(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
                         color: Color(0xff1E1E1E),
                         fontSize: 13.8.sp,
                         fontWeight: FontWeight.w400),
                     SizedBox(height: 2.h),
                     SizedBox(height: 2.h),
-                    text_widget(
+                    textWidget(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
                         color: Color(0xff1E1E1E),
                         fontSize: 13.8.sp,
                         fontWeight: FontWeight.w400),
                     SizedBox(height: 2.h),
                     SizedBox(height: 2.h),
-                    text_widget(
+                    textWidget(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
                         color: Color(0xff1E1E1E),
                         fontSize: 13.8.sp,
                         fontWeight: FontWeight.w400),
                     SizedBox(height: 2.h),
                     SizedBox(height: 2.h),
-                    text_widget(
+                    textWidget(
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
                         color: Color(0xff1E1E1E),
                         fontSize: 13.8.sp,

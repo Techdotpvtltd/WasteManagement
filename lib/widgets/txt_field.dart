@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/config/colors.dart';
@@ -56,14 +54,14 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
             prefixIconConstraints: BoxConstraints(minWidth: 8.w),
             prefixIcon: isPrefix
                 ? InkWell(
-                    onTap: () {
-                    
-                    },
+                    onTap: () {},
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Image.asset(
                         prefixIcon,
-                        height:prefixIcon=="assets/icons/mail.png"?1.9.h: 2.4.h,
+                        height: prefixIcon == "assets/icons/mail.png"
+                            ? 1.9.h
+                            : 2.4.h,
                         color: MyColors.primary,
                       ),
                     ),
