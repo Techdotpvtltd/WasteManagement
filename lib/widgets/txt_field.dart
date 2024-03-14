@@ -18,12 +18,14 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
     bool isPrefix = false,
     color,
     iconColor,
-    bool obsecure = false}) {
+    bool obsecure = false,
+    TextInputType? keyboardType}) {
   return StatefulBuilder(
     builder: (BuildContext context, setState) {
       return TextField(
         maxLines: line,
         enabled: enable,
+        keyboardType: keyboardType,
         obscureText: obsecure,
         controller: controller,
         style: GoogleFonts.plusJakartaSans(

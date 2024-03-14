@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/config/colors.dart';
 import 'package:wasteapp/page/auth/login_page.dart';
+import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 import 'package:wasteapp/widgets/custom_button.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
@@ -118,7 +118,7 @@ class _IntroPageState extends State<IntroPage> {
                                   font: 15.6,
                                   txtColor: MyColors.white, ontap: () {
                                 if (currentPage == 2) {
-                                  Get.offAll(LoginPage());
+                                  NavigationService.offAll(LoginPage());
                                 } else {
                                   setState(() {
                                     currentPage++;

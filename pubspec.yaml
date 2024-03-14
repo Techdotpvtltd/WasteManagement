@@ -46,8 +46,17 @@ dependencies:
   dropdown_button2 :
   remixicon :
   flutter_time_picker_spinner :
-  dotted_border: 
+  dotted_border: ^2.1.0 
   intl :
+  flutter_bloc: ^8.1.4
+  firebase_auth: ^4.17.8
+  cloud_firestore: ^4.15.8
+  firebase_storage: ^11.6.9
+  cached_network_image: ^3.3.1
+  image_picker: ^1.0.7
+  sign_in_with_apple: ^5.0.0
+  google_sign_in: ^6.2.1
+  firebase_core: ^2.27.0
 
 
 

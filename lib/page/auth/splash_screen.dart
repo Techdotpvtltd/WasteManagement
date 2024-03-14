@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:wasteapp/page/auth/intro_page.dart';
+import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 2), () async {
-      Get.offAll(IntroPage());
+      NavigationService.offAll(IntroPage());
     });
   }
 

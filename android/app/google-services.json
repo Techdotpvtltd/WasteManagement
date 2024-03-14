@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "412634432030",
+    "project_id": "mt-waste-management",
+    "storage_bucket": "mt-waste-management.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412634432030:android:38766c5f0aa4237ca0640f",
+        "android_client_info": {
+          "package_name": "com.techdot.waste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412634432030-3jb6e86lt2ji88n067ak39qrmvguk7g3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4lXoG6JEcu78PTgT1oGnhx5FUVmtXeNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412634432030-3jb6e86lt2ji88n067ak39qrmvguk7g3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "412634432030-tlog1m1lgefniap3a4ir4u7h4214letj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.techdot.waste"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
