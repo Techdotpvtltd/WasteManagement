@@ -43,7 +43,10 @@ class _LoginPageState extends State<LoginPage> {
         if (state is AuthStateLogging ||
             state is AuthStateLoggedIn ||
             state is AuthStateLoginFailure ||
-            state is AuthStateEmailVerificationRequired) {
+            state is AuthStateEmailVerificationRequired ||
+            state is AuthStateAppleLoggedIn ||
+            state is AuthStateGoogleLoggedIn ||
+            state is AuthStateGoogleLogging) {
           state.isLoading
               ? Loader().show(withText: "Login...")
               : NavigationService.back();
@@ -60,7 +63,9 @@ class _LoginPageState extends State<LoginPage> {
             );
           }
 
-          if (state is AuthStateLoggedIn) {
+          if (state is AuthStateLoggedIn ||
+              state is AuthStateAppleLoggedIn ||
+              state is AuthStateGoogleLoggedIn) {
             NavigationService.offAll(UserDrawer());
           }
         }

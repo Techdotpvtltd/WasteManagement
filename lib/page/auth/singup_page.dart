@@ -174,20 +174,20 @@ class _SingupPageState extends State<SingupPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SocialIconButton(
-                            onPressed: () {
-                              context
-                                  .read<AuthBloc>()
-                                  .add(AuthEventAppleLogin());
-                            },
-                            icon: "assets/icons/apple-ic.svg"),
+                          onPressed: () {
+                            context.read<AuthBloc>().add(AuthEventAppleLogin());
+                          },
+                          icon: "assets/icons/apple-ic.svg",
+                        ),
                         gapW10,
                         SocialIconButton(
-                            onPressed: () {
-                              context
-                                  .read<AuthBloc>()
-                                  .add(AuthEventGoogleLogin());
-                            },
-                            icon: "assets/icons/google-ic.svg"),
+                          onPressed: () {
+                            context
+                                .read<AuthBloc>()
+                                .add(AuthEventGoogleLogin());
+                          },
+                          icon: "assets/icons/google-ic.svg",
+                        ),
                       ],
                     ),
                     SizedBox(height: 7.h),

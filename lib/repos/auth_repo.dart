@@ -50,7 +50,7 @@ class AuthRepo {
 
   Future<void> _fetchOrCreateUser() async {
     try {
-      // await UserRepo().fetch();
+      await UserRepo().fetch();
       userFetchFailureCount = 0;
     } on AppException catch (e) {
       if (UserRepo().isUserNull || e is AuthExceptionUserNotFound) {
