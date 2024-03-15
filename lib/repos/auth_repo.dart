@@ -55,11 +55,14 @@ class AuthRepo {
     } on AppException catch (e) {
       if (UserRepo().isUserNull || e is AuthExceptionUserNotFound) {
         final User? user = FirebaseAuth.instance.currentUser;
+
         if (user != null) {
           if (userFetchFailureCount <= 1) {
             await UserRepo().create(
                 uid: user.uid,
                 name: user.displayName ?? "",
+                avatarUrl: user.photoURL,
+                phoneNumber: user.phoneNumber,
                 email: user.email ?? "");
             _fetchOrCreateUser();
           } else {

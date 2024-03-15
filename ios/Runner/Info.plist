@@ -49,5 +49,22 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.412634432030-tlog1m1lgefniap3a4ir4u7h4214letj</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>412634432030-tlog1m1lgefniap3a4ir4u7h4214letj.apps.googleusercontent.com</string>
+
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

@@ -66,6 +66,8 @@ class UserRepo {
     required String uid,
     required String name,
     required String email,
+    String? phoneNumber,
+    String? avatarUrl,
   }) async {
     try {
       if (uid == "") {
@@ -78,9 +80,9 @@ class UserRepo {
         email: email,
         address: "",
         agent: "",
-        phoneNumber: "",
+        phoneNumber: phoneNumber ?? "",
         createdAt: DateTime.now(),
-        avatar: "",
+        avatar: avatarUrl ?? "",
       );
 
       final Map<String, dynamic> data = await FirestoreService().saveWithDocId(

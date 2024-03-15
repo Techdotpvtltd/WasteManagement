@@ -15,7 +15,9 @@ import 'package:wasteapp/widgets/txt_widget.dart';
 import '../../utilities/constants/constants.dart';
 import '../../widgets/social_icon_button.dart';
 import '../../widgets/txt_field.dart';
+import '../home/drawer.dart';
 import 'addtional_info.dart';
+import 'dart:io' show Platform;
 
 class SingupPage extends StatefulWidget {
   const SingupPage({super.key});
@@ -45,16 +47,28 @@ class _SingupPageState extends State<SingupPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthStateRegistering ||
+            state is AuthStateLogging ||
             state is AuthStateRegisterFailure ||
-            state is AuthStateRegistered) {
+            state is AuthStateLoginFailure ||
+            state is AuthStateRegistered ||
+            state is AuthStateAppleLoggedIn ||
+            state is AuthStateGoogleLoggedIn ||
+            state is AuthStateGoogleLogging) {
           state.isLoading ? Loader().show() : NavigationService.back();
 
           if (state is AuthStateRegisterFailure) {
             CustomDilaogs().errorBox(message: state.exception.message);
           }
-
+          if (state is AuthStateLoginFailure) {
+            CustomDilaogs().errorBox(message: state.exception.message);
+          }
           if (state is AuthStateRegistered) {
             NavigationService.go(AdditionalInfoPage());
+          }
+
+          if (state is AuthStateAppleLoggedIn ||
+              state is AuthStateGoogleLoggedIn) {
+            NavigationService.offAll(UserDrawer());
           }
         }
       },
@@ -173,11 +187,16 @@ class _SingupPageState extends State<SingupPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SocialIconButton(
-                          onPressed: () {
-                            context.read<AuthBloc>().add(AuthEventAppleLogin());
-                          },
-                          icon: "assets/icons/apple-ic.svg",
+                        Visibility(
+                          visible: Platform.isIOS,
+                          child: SocialIconButton(
+                            onPressed: () {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(AuthEventAppleLogin());
+                            },
+                            icon: "assets/icons/apple-ic.svg",
+                          ),
                         ),
                         gapW10,
                         SocialIconButton(

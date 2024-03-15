@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -190,13 +191,16 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SocialIconButton(
-                            onPressed: () {
-                              context
-                                  .read<AuthBloc>()
-                                  .add(AuthEventAppleLogin());
-                            },
-                            icon: "assets/icons/apple-ic.svg"),
+                        Visibility(
+                          visible: Platform.isIOS,
+                          child: SocialIconButton(
+                              onPressed: () {
+                                context
+                                    .read<AuthBloc>()
+                                    .add(AuthEventAppleLogin());
+                              },
+                              icon: "assets/icons/apple-ic.svg"),
+                        ),
                         gapW10,
                         SocialIconButton(
                             onPressed: () {
