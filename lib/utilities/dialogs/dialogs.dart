@@ -108,6 +108,7 @@ class CustomDilaogs {
     VoidCallback? onNegativePressed,
     VoidCallback? onPositivePressed,
     IconData? icon,
+    bool showNegative = true,
   }) {
     _genericDilaog(
       icon: icon ?? Icons.warning,
@@ -127,17 +128,18 @@ class CustomDilaogs {
               }
             },
           ),
-          gapH6,
-          RoundedButton(
-            title: negativeTitle ?? "Cancel",
-            withBorderOnly: true,
-            height: 44,
-            textSize: 12,
-            onPressed: onNegativePressed ??
-                () {
-                  Navigator.of(navKey.currentContext!).pop();
-                },
-          ),
+          if (showNegative) gapH6,
+          if (showNegative)
+            RoundedButton(
+              title: negativeTitle ?? "Cancel",
+              withBorderOnly: true,
+              height: 44,
+              textSize: 12,
+              onPressed: onNegativePressed ??
+                  () {
+                    Navigator.of(navKey.currentContext!).pop();
+                  },
+            ),
         ],
       ),
     );

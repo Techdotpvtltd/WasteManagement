@@ -19,13 +19,16 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
     color,
     iconColor,
     bool obsecure = false,
+    final VoidCallback? onTap,
     TextInputType? keyboardType}) {
   return StatefulBuilder(
     builder: (BuildContext context, setState) {
       return TextField(
         maxLines: line,
         enabled: enable,
+        onTap: onTap,
         keyboardType: keyboardType,
+        readOnly: onTap != null,
         obscureText: obsecure,
         controller: controller,
         style: GoogleFonts.plusJakartaSans(

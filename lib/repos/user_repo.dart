@@ -78,7 +78,6 @@ class UserRepo {
         uid: uid,
         name: name,
         email: email,
-        address: "",
         agent: "",
         phoneNumber: phoneNumber ?? "",
         createdAt: DateTime.now(),
@@ -103,7 +102,7 @@ class UserRepo {
     required String email,
     required String phone,
     required String agent,
-    required String address,
+    UserLocation? location,
     String? imagePath,
   }) async {
     try {
@@ -111,8 +110,7 @@ class UserRepo {
         name: name,
         email: email,
         phone: phone,
-        agent: agent,
-        address: address,
+        location: location,
       );
 
       /// There is no user profile
@@ -121,7 +119,7 @@ class UserRepo {
           uid: FirebaseAuth.instance.currentUser?.uid ?? "",
           name: name,
           email: email,
-          address: address,
+          location: location,
           phoneNumber: phone,
           agent: agent,
           createdAt: DateTime.now(),
@@ -139,7 +137,7 @@ class UserRepo {
         name: name,
         email: email,
         avatar: imagePath,
-        address: address,
+        location: location,
         agent: agent,
         phoneNumber: phone,
       );

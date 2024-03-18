@@ -1,3 +1,5 @@
+import 'package:wasteapp/models/user_model.dart';
+
 import '../../exceptions/auth_exceptions.dart';
 import '../../utilities/utils.dart';
 
@@ -55,8 +57,7 @@ class DataValidation {
     String? name,
     String? email,
     String? phone,
-    String? agent,
-    String? address,
+    UserLocation? location,
   }) async {
     if (name == null || name == "") {
       throw AuthExceptionFullNameRequired();
@@ -74,11 +75,7 @@ class DataValidation {
       throw AuthExceptionRequiredPhone();
     }
 
-    if (agent == null || agent == "") {
-      throw AuthExceptionRequiredAgent();
-    }
-
-    if (address == null || address == "") {
+    if (location == null) {
       throw AuthExceptionRequiredAddress();
     }
   }

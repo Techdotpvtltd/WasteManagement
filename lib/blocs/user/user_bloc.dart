@@ -32,10 +32,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           final UserModel updatedModel = await UserRepo().update(
             name: event.name,
             email: event.email,
-            address: event.address,
-            agent: event.agent,
+            agent: event.agent ?? "",
             phone: event.phone,
             imagePath: avatarUrl,
+            location: event.location,
           );
           emit(UserStateProfileUpdated(user: updatedModel));
         } on AppException catch (e) {

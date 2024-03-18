@@ -18,8 +18,7 @@ class UserModel {
   final String avatar;
   final String phoneNumber;
   final String agent;
-  final String address;
-
+  final UserLocation? location;
   final DateTime createdAt;
   UserModel({
     required this.uid,
@@ -29,7 +28,7 @@ class UserModel {
     required this.createdAt,
     required this.phoneNumber,
     required this.agent,
-    required this.address,
+    this.location,
   });
 
   UserModel copyWith({
@@ -41,6 +40,7 @@ class UserModel {
     String? agent,
     String? address,
     DateTime? createdAt,
+    UserLocation? location,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -49,8 +49,8 @@ class UserModel {
       avatar: avatar ?? this.avatar,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       agent: agent ?? this.agent,
-      address: address ?? this.address,
       createdAt: createdAt ?? this.createdAt,
+      location: location ?? this.location,
     );
   }
 
@@ -62,8 +62,8 @@ class UserModel {
       'avatar': avatar,
       'phone': phoneNumber,
       'agent': agent,
-      'address': address,
       'createdAt': Timestamp.fromDate(createdAt),
+      'location': location?.toMap(),
     };
   }
 
@@ -75,8 +75,10 @@ class UserModel {
       avatar: map['avatar'] as String? ?? "",
       phoneNumber: map['phone'] as String? ?? "",
       agent: map['agent'] as String? ?? "",
-      address: map['address'] as String? ?? "",
       createdAt: (map['createdAt'] as Timestamp? ?? Timestamp.now()).toDate(),
+      location: map['location'] != null
+          ? UserLocation.fromMap(map['location'])
+          : null,
     );
   }
 
@@ -87,7 +89,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name, email: $email, avatar: $avatar, createdAt: $createdAt, address: $address, phone: $phoneNumber, agent: $agent)';
+    return 'UserModel(uid: $uid, name: $name, email: $email, avatar: $avatar, createdAt: $createdAt, phone: $phoneNumber, agent: $agent), location: $location';
   }
 
   @override
@@ -98,9 +100,9 @@ class UserModel {
         other.name == name &&
         other.email == email &&
         other.avatar == avatar &&
-        other.address == address &&
         other.phoneNumber == phoneNumber &&
         other.agent == agent &&
+        other.location == location &&
         other.createdAt == createdAt;
   }
 
@@ -111,8 +113,89 @@ class UserModel {
         email.hashCode ^
         avatar.hashCode ^
         phoneNumber.hashCode ^
-        address.hashCode ^
         agent.hashCode ^
+        location.hashCode ^
         createdAt.hashCode;
+  }
+}
+
+class UserLocation {
+  final String? address;
+  final String? city;
+  final String? country;
+  final double? latitude;
+  final double? longitude;
+  UserLocation({
+    this.address,
+    this.city,
+    this.country,
+    this.latitude,
+    this.longitude,
+  });
+
+  UserLocation copyWith({
+    String? address,
+    String? city,
+    String? country,
+    double? latitude,
+    double? longitude,
+  }) {
+    return UserLocation(
+      address: address ?? this.address,
+      city: city ?? this.city,
+      country: country ?? this.country,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'address': address,
+      'city': city,
+      'country': country,
+      'latitude': latitude,
+      'longitude': longitude,
+    };
+  }
+
+  factory UserLocation.fromMap(Map<String, dynamic> map) {
+    return UserLocation(
+      address: map['address'] != null ? map['address'] as String : null,
+      city: map['city'] != null ? map['city'] as String : null,
+      country: map['country'] != null ? map['country'] as String : null,
+      latitude: map['latitude'] != null ? map['latitude'] as double : null,
+      longitude: map['longitude'] != null ? map['longitude'] as double : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory UserLocation.fromJson(String source) =>
+      UserLocation.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'UserLocation(address: $address, city: $city, country: $country, latitude: $latitude, longitude: $longitude)';
+  }
+
+  @override
+  bool operator ==(covariant UserLocation other) {
+    if (identical(this, other)) return true;
+
+    return other.address == address &&
+        other.city == city &&
+        other.country == country &&
+        other.latitude == latitude &&
+        other.longitude == longitude;
+  }
+
+  @override
+  int get hashCode {
+    return address.hashCode ^
+        city.hashCode ^
+        country.hashCode ^
+        latitude.hashCode ^
+        longitude.hashCode;
   }
 }

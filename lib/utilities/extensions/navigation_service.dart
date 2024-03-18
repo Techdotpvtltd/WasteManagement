@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wasteapp/main.dart';
 
 class NavigationService {
-  static Future<void> go(Widget child) async {
-    await Navigator.push(
+  static Future<dynamic> go(Widget child) async {
+    return await Navigator.push(
         navKey.currentContext!, MaterialPageRoute(builder: (context) => child));
   }
 

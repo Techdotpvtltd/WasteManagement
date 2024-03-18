@@ -1,4 +1,6 @@
 // ignore: dangling_library_doc_comments
+import 'package:wasteapp/models/user_model.dart';
+
 /// Project: 	   playtogethher
 /// File:    	   user_event
 /// Path:    	   lib/blocs/user/user_event.dart
@@ -15,14 +17,14 @@ class UserEventUpdateProfile extends UserEvent {
   final String name;
   final String email;
   final String phone;
-  final String address;
-  final String agent;
+  final String? agent;
+  final UserLocation? location;
   UserEventUpdateProfile({
     this.avatarUrl,
     required this.name,
     required this.email,
     required this.phone,
-    required this.address,
-    required this.agent,
+    this.agent,
+    this.location,
   });
 }
