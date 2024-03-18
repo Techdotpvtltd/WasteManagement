@@ -17,11 +17,13 @@ class CircleNetworkImage extends StatelessWidget {
     this.onTapImage,
     this.width,
     this.height,
+    this.backgroundColor,
   });
   final String url;
   final VoidCallback? onTapImage;
   final double? width;
   final double? height;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class CircleNetworkImage extends StatelessWidget {
             ),
             child: CustomNetworkImage(
               imageUrl: url,
-              backgroundColor: Colors.transparent,
+              backgroundColor: backgroundColor ?? Colors.transparent,
               showPlaceholder: false,
             ),
           ),

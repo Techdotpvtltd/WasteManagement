@@ -20,8 +20,8 @@ import '../../config/colors.dart';
 import '../../widgets/custom_button.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
-
+  const EditProfile({super.key, this.showBack = false});
+  final bool showBack;
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
@@ -105,12 +105,18 @@ class _EditProfileState extends State<EditProfile> {
                     children: [
                       InkWell(
                         onTap: () {
+                          if (widget.showBack) {
+                            NavigationService.back();
+                            // return;
+                          }
                           Get.find<MyDrawerController>().toggleDrawer();
                         },
-                        child: Image.asset(
-                          "assets/icons/draw.png",
-                          height: 1.8.h,
-                        ),
+                        child: widget.showBack
+                            ? Icon(Icons.arrow_back)
+                            : Image.asset(
+                                "assets/icons/draw.png",
+                                height: 1.8.h,
+                              ),
                       ),
                       Spacer(),
                       textWidget(

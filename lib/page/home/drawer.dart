@@ -9,15 +9,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/blocs/auth/auth_bloc.dart';
 import 'package:wasteapp/blocs/auth/auth_event.dart';
+import 'package:wasteapp/blocs/user/user_bloc.dart';
+import 'package:wasteapp/blocs/user/user_state.dart';
 import 'package:wasteapp/config/colors.dart';
+import 'package:wasteapp/models/user_model.dart';
 import 'package:wasteapp/page/auth/change_password.dart';
-import 'package:wasteapp/page/auth/intro_page.dart';
 import 'package:wasteapp/page/home/edit_profile.dart';
 import 'package:wasteapp/page/home/give_review.dart';
 import 'package:wasteapp/page/home/home_page.dart';
 import 'package:wasteapp/page/home/notificaton_page.dart';
 import 'package:wasteapp/page/home/support_page.dart';
 import 'package:wasteapp/page/home/terms_page.dart';
+import 'package:wasteapp/repos/user_repo.dart';
+import 'package:wasteapp/utilities/extensions/navigation_service.dart';
+import 'package:wasteapp/widgets/circle_network_image_widget.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
 List titles = [
@@ -120,30 +125,49 @@ class _UserDrawerState extends State<UserDrawer> {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 12.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
+                                        child: BlocSelector<UserBloc, UserState,
+                                            UserModel?>(
+                                          selector: (state) {
+                                            if (state
+                                                is UserStateProfileUpdated) {
+                                              return state.user;
+                                            }
+                                            return null;
+                                          },
+                                          builder: (context, statedUser) {
+                                            final UserModel user =
+                                                UserRepo().currentUser;
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                CircleAvatar(
-                                                  radius: 3.6.h,
-                                                  backgroundColor: Colors.white,
-                                                  backgroundImage: AssetImage(
-                                                      "assets/images/boy.png"),
+                                                CircleNetworkImage(
+                                                  url: statedUser?.avatar ??
+                                                      user.avatar,
+                                                  width: 80,
+                                                  height: 80,
+                                                  backgroundColor: Colors.black,
+                                                  onTapImage: () {
+                                                    NavigationService.go(
+                                                        EditProfile(
+                                                      showBack: true,
+                                                    ));
+                                                    _.closeDrawer();
+                                                  },
                                                 ),
+                                                SizedBox(height: 1.h),
+                                                textWidget("Hey, 👋",
+                                                    color: Colors.white,
+                                                    fontSize: 16.sp),
+                                                SizedBox(height: 1.h),
+                                                textWidget(
+                                                    (statedUser ?? user).name,
+                                                    fontSize: 15.5.sp,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600)
                                               ],
-                                            ),
-                                            SizedBox(height: 1.h),
-                                            textWidget("Hey, 👋",
-                                                color: Colors.white,
-                                                fontSize: 16.sp),
-                                            SizedBox(height: 1.h),
-                                            textWidget("John Bruce",
-                                                fontSize: 15.5.sp,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600)
-                                          ],
+                                            );
+                                          },
                                         ),
                                       ),
                                     ],
