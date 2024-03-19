@@ -47,7 +47,7 @@ dependencies:
   remixicon :
   flutter_time_picker_spinner :
   dotted_border: ^2.1.0 
-  intl :
+  intl : ^0.19.0
   flutter_bloc: ^8.1.4
   firebase_auth: ^4.17.8
   cloud_firestore: ^4.15.8
@@ -61,6 +61,9 @@ dependencies:
   place_picker: ^0.10.0
   permission_handler: ^11.3.0
   geolocator: ^9.0.2
+  flutter_local_notifications: ^17.0.0
+  timezone: ^0.9.2
+  flutter_native_timezone: ^2.0.0
 
 
 

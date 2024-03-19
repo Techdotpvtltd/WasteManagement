@@ -4,10 +4,12 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/config/colors.dart';
 import 'package:wasteapp/page/home/alert_page.dart';
 import 'package:wasteapp/page/home/chat/chat_page.dart';
+import 'package:wasteapp/page/home/components/picking_time_widget.dart';
 import 'package:wasteapp/page/home/drawer.dart';
 import 'package:wasteapp/page/home/notificaton_page.dart';
 import 'package:wasteapp/page/home/pickup_page.dart';
 import 'package:wasteapp/page/home/special_request.dart';
+import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -36,9 +38,11 @@ class HomePage extends StatelessWidget {
                     Spacer(),
                     InkWell(
                         onTap: () {
-                          Get.to(NotificationScreen(
-                            isDrawer: false,
-                          ));
+                          NavigationService.go(
+                            NotificationScreen(
+                              isDrawer: false,
+                            ),
+                          );
                         },
                         child: Image.asset(
                           "assets/icons/bell2.png",
@@ -54,68 +58,32 @@ class HomePage extends StatelessWidget {
                 SizedBox(height: 3.h),
                 InkWell(
                   onTap: () {
-                    Get.to(PickupPage());
+                    NavigationService.go(PickupPage());
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: MyColors.primary,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 22.0, vertical: 26),
-                      child: Row(
-                        children: [
-                          Image.asset("assets/icons/rec.png", height: 5.h),
-                          SizedBox(width: 7.w),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              textWidget("Next Pick-up ",
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xffFFFCF9).withOpacity(0.51),
-                                  fontSize: 15.sp),
-                              textWidget("9h 43min",
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22.sp),
-                              textWidget(
-                                "10:43pm ",
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xffFFFCF9).withOpacity(0.51),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          Image.asset("assets/icons/arr.png", height: 2.3.h),
-                          SizedBox(width: 3.w),
-                        ],
-                      ),
-                    ),
-                  ),
+                  child: PickingTimeWidget(),
                 ),
                 SizedBox(height: 2.h),
-                Container(
-                  height: 8.4.h,
-                  decoration: BoxDecoration(
+                InkWell(
+                  onTap: () {
+                    NavigationService.go(AlertPage());
+                  },
+                  child: Container(
+                    height: 8.4.h,
+                    decoration: BoxDecoration(
                       color: Color(0xffE8A04C),
-                      borderRadius: BorderRadius.circular(21)),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 5.w),
-                      Image.asset("assets/icons/bell1.png", height: 4.h),
-                      SizedBox(width: 4.w),
-                      textWidget("Alerts",
-                          color: Color(0xff761E37),
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w600),
-                      Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Get.to(AlertPage());
-                        },
-                        child: Container(
+                      borderRadius: BorderRadius.circular(21),
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 5.w),
+                        Image.asset("assets/icons/bell1.png", height: 4.h),
+                        SizedBox(width: 4.w),
+                        textWidget("Alerts",
+                            color: Color(0xff761E37),
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600),
+                        Spacer(),
+                        Container(
                           // width: 10.w,
                           height: 2.8.h,
                           decoration: BoxDecoration(
@@ -131,9 +99,9 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 3.w),
-                    ],
+                        SizedBox(width: 3.w),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 2.h),
@@ -144,7 +112,7 @@ class HomePage extends StatelessWidget {
                       Expanded(
                           child: InkWell(
                         onTap: () {
-                          Get.to(SpecialRequestPage());
+                          NavigationService.go(SpecialRequestPage());
                         },
                         child: Container(
                           height: 10.h,
@@ -174,7 +142,7 @@ class HomePage extends StatelessWidget {
                       Expanded(
                           child: InkWell(
                         onTap: () {
-                          Get.to(UserChatPage());
+                          NavigationService.go(UserChatPage());
                         },
                         child: Container(
                           height: 10.h,

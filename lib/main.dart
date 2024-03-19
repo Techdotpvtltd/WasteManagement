@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/blocs/auth/auth_bloc.dart';
 import 'package:wasteapp/blocs/auth/auth_state.dart';
+import 'package:wasteapp/blocs/picking/picking_bloc.dart';
 import 'package:wasteapp/blocs/user/user_bloc.dart';
 import 'package:wasteapp/page/auth/splash_screen.dart';
 import 'package:wasteapp/page/home/drawer.dart';
@@ -11,6 +13,8 @@ import 'package:wasteapp/page/home/drawer.dart';
 import 'firebase_options.dart';
 import 'manager/app_bloc_observer.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +30,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // Initialize time zone data
+  tz.initializeTimeZones();
+  // Obtain the local time zone
+  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  // Set the local time zone
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
+
   runApp(const MyApp());
 }
 
@@ -33,19 +44,22 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(builder: (context, orientation, screenType) {
-      return MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
-          BlocProvider<UserBloc>(create: (context) => UserBloc()),
-        ],
-        child: MaterialApp(
-          navigatorKey: navKey,
-          debugShowCheckedModeBanner: false,
-          home: _WasteApp(),
-        ),
-      );
-    });
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
+            BlocProvider<UserBloc>(create: (context) => UserBloc()),
+            BlocProvider<PickingBloc>(create: (context) => PickingBloc()),
+          ],
+          child: MaterialApp(
+            navigatorKey: navKey,
+            debugShowCheckedModeBanner: false,
+            home: _WasteApp(),
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -58,7 +72,6 @@ class _WasteApp extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
-          debugPrint("AuthStateLoggedIn");
           return UserDrawer();
         }
         return SplashScreen();

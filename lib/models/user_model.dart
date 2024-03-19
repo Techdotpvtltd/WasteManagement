@@ -20,6 +20,8 @@ class UserModel {
   final String agent;
   final UserLocation? location;
   final DateTime createdAt;
+  final String? siteAreaCode;
+
   UserModel({
     required this.uid,
     required this.name,
@@ -29,6 +31,7 @@ class UserModel {
     required this.phoneNumber,
     required this.agent,
     this.location,
+    this.siteAreaCode,
   });
 
   UserModel copyWith({
@@ -79,6 +82,7 @@ class UserModel {
       location: map['location'] != null
           ? UserLocation.fromMap(map['location'])
           : null,
+      siteAreaCode: map['siteAreaCode'] as String?,
     );
   }
 
