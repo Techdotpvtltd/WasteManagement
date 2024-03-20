@@ -14,3 +14,6 @@ class RequestEventSend extends RequestEvent {
 
   RequestEventSend({required this.requestMessage});
 }
+
+// Fetch Request Event
+class RequestEventFetch extends RequestEvent {}

@@ -6,6 +6,7 @@ import 'package:wasteapp/models/user_model.dart';
 import 'package:wasteapp/repos/user_repo.dart';
 import 'package:wasteapp/utilities/constants/constants.dart';
 import 'package:wasteapp/web_services/firestore_services.dart';
+import 'package:wasteapp/web_services/query_model.dart';
 
 /// Project: 	   wasteapp
 /// File:    	   request_repo
@@ -36,6 +37,29 @@ class RequestRepo {
           path: FIREBASE_COLLECTION_SPECIAL_REQUESTS,
           data: model.toMap(),
           docIdFiled: "id");
+    } catch (e) {
+      throw thrownAppException(e: e);
+    }
+  }
+
+  Future<List<RequestModel>> fetchRequests() async {
+    try {
+      final UserModel user = UserRepo().currentUser;
+      final List<Map<String, dynamic>> mappedRequests =
+          await FirestoreService().fetchWithMultipleConditions(
+        collection: FIREBASE_COLLECTION_SPECIAL_REQUESTS,
+        queries: [
+          QueryModel(
+              field: "requester.requesterId",
+              value: user.uid,
+              type: QueryType.isEqual),
+        ],
+      );
+      final requests =
+          mappedRequests.map((e) => RequestModel.fromMap(e)).toList();
+      requests.sort((a, b) => b.requester.requestTime.millisecondsSinceEpoch
+          .compareTo(a.requester.requestTime.millisecondsSinceEpoch));
+      return requests;
     } catch (e) {
       throw thrownAppException(e: e);
     }

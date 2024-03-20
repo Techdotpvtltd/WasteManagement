@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasteapp/blocs/request/request_event.dart';
 import 'package:wasteapp/blocs/request/request_state.dart';
 import 'package:wasteapp/exceptions/app_exceptions.dart';
+import 'package:wasteapp/models/request_model.dart';
 import 'package:wasteapp/repos/request_repo.dart';
 
 /// Project: 	   wasteapp
@@ -23,6 +24,20 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
           emit(RequestStateSent());
         } on AppException catch (e) {
           emit(RequestStateSendingFailure(exception: e));
+        }
+      },
+    );
+
+    // Fetch Requests
+    on<RequestEventFetch>(
+      (event, emit) async {
+        try {
+          emit(RequestStateFetching());
+          final List<RequestModel> requests =
+              await RequestRepo().fetchRequests();
+          emit(RequestStateFetched(requests: requests));
+        } on AppException catch (e) {
+          emit(RequestStateFetchFailure(exception: e));
         }
       },
     );

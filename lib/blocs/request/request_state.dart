@@ -1,5 +1,6 @@
 // ignore: dangling_library_doc_comments
 import 'package:wasteapp/exceptions/app_exceptions.dart';
+import 'package:wasteapp/models/request_model.dart';
 
 /// Project: 	   wasteapp
 /// File:    	   request_state
@@ -31,3 +32,21 @@ class RequestStateSendingFailure extends RequestState {
 }
 
 class RequestStateSent extends RequestState {}
+
+// ===========================Fetch Requests States================================
+class RequestStateFetching extends RequestState {
+  RequestStateFetching(
+      {super.isLoading = true, super.loadingText = "Fetching..."});
+}
+
+class RequestStateFetchFailure extends RequestState {
+  final AppException exception;
+
+  RequestStateFetchFailure({required this.exception});
+}
+
+class RequestStateFetched extends RequestState {
+  final List<RequestModel> requests;
+
+  RequestStateFetched({required this.requests});
+}
