@@ -50,3 +50,16 @@ class RequestStateFetched extends RequestState {
 
   RequestStateFetched({required this.requests});
 }
+
+// =========================== Rate Response States ================================
+class RequestStateRating extends RequestState {
+  RequestStateRating({super.isLoading = true, super.loadingText = "Rating..."});
+}
+
+class RequestStateRatingFailure extends RequestState {
+  final AppException exception;
+
+  RequestStateRatingFailure({required this.exception});
+}
+
+class RequestStateRated extends RequestState {}

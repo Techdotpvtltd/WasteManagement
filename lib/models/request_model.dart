@@ -12,21 +12,25 @@ class RequestModel {
   final String id;
   final RequesterModel requester;
   final ResponserModel? responser;
+  final ResponseReview? responseReview;
   RequestModel({
     required this.id,
     required this.requester,
     this.responser,
+    this.responseReview,
   });
 
   RequestModel copyWith({
     String? id,
     RequesterModel? requester,
     ResponserModel? responser,
+    ResponseReview? responseReview,
   }) {
     return RequestModel(
       id: id ?? this.id,
       requester: requester ?? this.requester,
       responser: responser ?? this.responser,
+      responseReview: responseReview ?? this.responseReview,
     );
   }
 
@@ -45,12 +49,16 @@ class RequestModel {
       responser: map['responser'] != null
           ? ResponserModel.fromMap(map['responser'] as Map<String, dynamic>)
           : null,
+      responseReview: map['responseReview'] != null
+          ? ResponseReview.fromMap(
+              (map['responseReview'] as Map<String, dynamic>))
+          : null,
     );
   }
 
   @override
   String toString() =>
-      'RequestModel(id: $id, requester: $requester, responser: $responser)';
+      'RequestModel(id: $id, requester: $requester, responser: $responser, review: $responseReview)';
 
   @override
   bool operator ==(covariant RequestModel other) {
@@ -58,7 +66,8 @@ class RequestModel {
 
     return other.id == id &&
         other.requester == requester &&
-        other.responser == responser;
+        other.responser == responser &&
+        other.responseReview == responseReview;
   }
 
   @override
@@ -148,4 +157,59 @@ class ResponserModel {
 
   @override
   int get hashCode => responseTime.hashCode ^ response.hashCode;
+}
+
+class ResponseReview {
+  final String? review;
+  final double rating;
+  final DateTime reviewTime;
+  ResponseReview({
+    this.review,
+    required this.rating,
+    required this.reviewTime,
+  });
+
+  ResponseReview copyWith({
+    String? review,
+    double? rating,
+    DateTime? reviewTime,
+  }) {
+    return ResponseReview(
+      review: review ?? this.review,
+      rating: rating ?? this.rating,
+      reviewTime: reviewTime ?? this.reviewTime,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'review': review,
+      'rating': rating,
+      'reviewTime': reviewTime.millisecondsSinceEpoch,
+    };
+  }
+
+  factory ResponseReview.fromMap(Map<String, dynamic> map) {
+    return ResponseReview(
+      review: map['review'] != null ? map['review'] as String : null,
+      rating: map['rating'] as double,
+      reviewTime: DateTime.fromMillisecondsSinceEpoch(map['reviewTime'] as int),
+    );
+  }
+
+  @override
+  String toString() =>
+      'ResponseReview(review: $review, rating: $rating, reviewTime: $reviewTime)';
+
+  @override
+  bool operator ==(covariant ResponseReview other) {
+    if (identical(this, other)) return true;
+
+    return other.review == review &&
+        other.rating == rating &&
+        other.reviewTime == reviewTime;
+  }
+
+  @override
+  int get hashCode => review.hashCode ^ rating.hashCode ^ reviewTime.hashCode;
 }

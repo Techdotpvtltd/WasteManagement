@@ -26,27 +26,33 @@ class _ViewRequestPageState extends State<ViewRequestPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: gradientButton(
-        "Rate Our Response",
-        font: 15.6,
-        txtColor: MyColors.white,
-        ontap: () {
-          NavigationService.go(
-            GiveReview(
-              isDrawer: false,
-            ),
-          );
-        },
-        // booking nai ki?? ye static request kyun hein??
-        width: 90,
-        height: 6,
-        isColor: true,
-        clr: MyColors.primary,
-      ),
+      floatingActionButton: request.responseReview == null
+          ? gradientButton(
+              "Rate Our Response",
+              font: 15.6,
+              txtColor: MyColors.white,
+              ontap: () {
+                NavigationService.go(
+                  GiveReview(
+                    isDrawer: false,
+                    requestId: request.id,
+                  ),
+                );
+              },
+              // booking nai ki?? ye static request kyun hein??
+              width: 90,
+              height: 6,
+              isColor: true,
+              clr: MyColors.primary,
+            )
+          : null,
       body: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.only(left: 22.0, right: 22, bottom: 100),
+          padding: EdgeInsets.only(
+              left: 22.0,
+              right: 22,
+              bottom: request.responseReview == null ? 100 : 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

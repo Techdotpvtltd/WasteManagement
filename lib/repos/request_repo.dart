@@ -42,6 +42,7 @@ class RequestRepo {
     }
   }
 
+  // Fetch Requests
   Future<List<RequestModel>> fetchRequests() async {
     try {
       final UserModel user = UserRepo().currentUser;
@@ -60,6 +61,23 @@ class RequestRepo {
       requests.sort((a, b) => b.requester.requestTime.millisecondsSinceEpoch
           .compareTo(a.requester.requestTime.millisecondsSinceEpoch));
       return requests;
+    } catch (e) {
+      throw thrownAppException(e: e);
+    }
+  }
+
+  // Rating Response
+  Future<void> rateResponse(
+      {required String requestId,
+      String? review,
+      required double rating}) async {
+    try {
+      final ResponseReview responseReview = ResponseReview(
+          rating: rating, reviewTime: DateTime.now(), review: review);
+      await FirestoreService().updateDataWithDocId(
+          path: FIREBASE_COLLECTION_SPECIAL_REQUESTS,
+          docId: requestId,
+          data: {"responseReview": responseReview.toMap()});
     } catch (e) {
       throw thrownAppException(e: e);
     }

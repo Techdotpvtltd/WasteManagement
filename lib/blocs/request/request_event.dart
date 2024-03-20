@@ -17,3 +17,13 @@ class RequestEventSend extends RequestEvent {
 
 // Fetch Request Event
 class RequestEventFetch extends RequestEvent {}
+
+// Rating Response Event
+class RequestEventRateResponse extends RequestEvent {
+  final String requestId;
+  final String? review;
+  final double rating;
+
+  RequestEventRateResponse(
+      {required this.requestId, required this.review, required this.rating});
+}

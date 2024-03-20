@@ -41,5 +41,21 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         }
       },
     );
+
+    // Response Rating
+    on<RequestEventRateResponse>(
+      (event, emit) async {
+        try {
+          emit(RequestStateRating());
+          await RequestRepo().rateResponse(
+              requestId: event.requestId,
+              rating: event.rating,
+              review: event.review);
+          emit(RequestStateRated());
+        } on AppException catch (e) {
+          emit(RequestStateRatingFailure(exception: e));
+        }
+      },
+    );
   }
 }
