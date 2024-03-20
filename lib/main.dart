@@ -6,6 +6,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/blocs/auth/auth_bloc.dart';
 import 'package:wasteapp/blocs/auth/auth_state.dart';
 import 'package:wasteapp/blocs/picking/picking_bloc.dart';
+import 'package:wasteapp/blocs/request/request_bloc.dart';
 import 'package:wasteapp/blocs/user/user_bloc.dart';
 import 'package:wasteapp/page/auth/splash_screen.dart';
 import 'package:wasteapp/page/home/drawer.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
             BlocProvider<UserBloc>(create: (context) => UserBloc()),
             BlocProvider<PickingBloc>(create: (context) => PickingBloc()),
+            BlocProvider<RequestBloc>(create: (context) => RequestBloc()),
           ],
           child: MaterialApp(
             navigatorKey: navKey,
