@@ -37,7 +37,7 @@ class LocalNotificationServices {
       iOS: iosNotificationDetails,
     );
     final AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     final DarwinInitializationSettings darwinInitializationSettings =
         DarwinInitializationSettings(
       onDidReceiveLocalNotification: (id, title, body, payload) {

@@ -157,7 +157,7 @@ class _AlertPageState extends State<AlertPage> {
                         ontap: () {
                           updateTime();
                           LocalNotificationServices()
-                              .scheduleAlertAlarmNotification(DateTime.now());
+                              .scheduleAlertAlarmNotification(alarmTime);
                         },
                         width: 90,
                         height: 6,
