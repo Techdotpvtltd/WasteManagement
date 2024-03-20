@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:wasteapp/page/home/drawer.dart';
 import 'package:wasteapp/widgets/custom_button.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
@@ -30,15 +28,19 @@ class DoneReview extends StatelessWidget {
                       fontSize: 19.sp,
                       fontWeight: FontWeight.w700),
                   SizedBox(height: 12.h),
-                  gradientButton("Go to Home",
-                      font: 15.6, txtColor: MyColors.primary, ontap: () {
-                    Get.offAll(UserDrawer());
-                  },
-                      // booking nai ki?? ye static request kyun hein??
-                      width: 90,
-                      height: 6,
-                      isColor: true,
-                      clr: MyColors.white),
+                  gradientButton(
+                    "Go to Home",
+                    font: 15.6,
+                    txtColor: MyColors.primary,
+                    ontap: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    },
+                    // booking nai ki?? ye static request kyun hein??
+                    width: 90,
+                    height: 6,
+                    isColor: true,
+                    clr: MyColors.white,
+                  ),
                   SizedBox(height: 3.h),
                 ],
               ),

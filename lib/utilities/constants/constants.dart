@@ -70,3 +70,4 @@ final double screenHeight = MediaQuery.of(navKey.currentContext!).size.height;
 const FIREBASE_COLLECTION_USER = "users";
 const FIREBASE_COLLECTION_USER_PROFILES = "profiles";
 const FIREBASE_COLLECTION_PICKING_TIMES = "pickingTimes";
+const FIREBASE_COLLECTION_SPECIAL_REQUESTS = "requests";

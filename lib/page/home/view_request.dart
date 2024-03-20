@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/page/home/give_review.dart';
+import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 import 'package:wasteapp/widgets/custom_button.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
@@ -23,9 +23,11 @@ class _ViewRequestPageState extends State<ViewRequestPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: gradientButton("Rate Our Response",
             font: 15.6, txtColor: MyColors.white, ontap: () {
-          Get.to(GiveReview(
-            isDrawer: false,
-          ));
+          NavigationService.go(
+            GiveReview(
+              isDrawer: false,
+            ),
+          );
         },
             // booking nai ki?? ye static request kyun hein??
             width: 90,
@@ -44,7 +46,7 @@ class _ViewRequestPageState extends State<ViewRequestPage> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Get.back();
+                            NavigationService.back();
                           },
                           child: Icon(
                             Remix.arrow_left_s_line,

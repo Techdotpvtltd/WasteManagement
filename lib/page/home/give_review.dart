@@ -5,6 +5,7 @@ import 'package:remixicon/remixicon.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/page/auth/done_review.dart';
 import 'package:wasteapp/page/home/drawer.dart';
+import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 import 'package:wasteapp/widgets/custom_button.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
@@ -27,7 +28,7 @@ class _GiveReviewState extends State<GiveReview> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: gradientButton("Submit",
             font: 15.6, txtColor: MyColors.white, ontap: () {
-          Get.to(DoneReview());
+          NavigationService.go(DoneReview());
         },
             // booking nai ki?? ye static request kyun hein??
             width: 90,
@@ -53,7 +54,7 @@ class _GiveReviewState extends State<GiveReview> {
                                     height: 1.8.h))
                             : InkWell(
                                 onTap: () {
-                                  Get.back();
+                                  NavigationService.back();
                                 },
                                 child: Icon(
                                   Remix.arrow_left_s_line,
