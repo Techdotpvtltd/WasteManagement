@@ -21,7 +21,6 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
         try {
           emit(ConversationStateCreatingOrFetchingExisted());
           await ConversationRepo().fetchOrCreateConversation();
-          debugPrint(ConversationRepo().conversation.toString());
           emit(ConversationStateCreatedOrFetchedExisted());
         } on AppException catch (e) {
           debugPrint(e.message.toString());
