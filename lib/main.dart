@@ -5,6 +5,7 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/blocs/auth/auth_bloc.dart';
 import 'package:wasteapp/blocs/auth/auth_state.dart';
+import 'package:wasteapp/blocs/conversation/conversation_bloc.dart';
 import 'package:wasteapp/blocs/picking/picking_bloc.dart';
 import 'package:wasteapp/blocs/request/request_bloc.dart';
 import 'package:wasteapp/blocs/user/user_bloc.dart';
@@ -53,6 +54,8 @@ class MyApp extends StatelessWidget {
             BlocProvider<UserBloc>(create: (context) => UserBloc()),
             BlocProvider<PickingBloc>(create: (context) => PickingBloc()),
             BlocProvider<RequestBloc>(create: (context) => RequestBloc()),
+            BlocProvider<ConversationBloc>(
+                create: (context) => ConversationBloc()),
           ],
           child: MaterialApp(
             navigatorKey: navKey,

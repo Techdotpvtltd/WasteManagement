@@ -170,6 +170,8 @@ class _SpecialRequestPageState extends State<SpecialRequestPage> {
                                         fontWeight: FontWeight.w700,
                                       ),
                                       subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           textWidget(
                                             request.requester.request,
@@ -187,9 +189,9 @@ class _SpecialRequestPageState extends State<SpecialRequestPage> {
                                                   ? InkWell(
                                                       onTap: () {
                                                         NavigationService.go(
-                                                            ViewRequestPage(
-                                                                request:
-                                                                    request));
+                                                          ViewRequestPage(
+                                                              request: request),
+                                                        );
                                                       },
                                                       child: Container(
                                                         height: 4.5.h,
