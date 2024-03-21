@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:wasteapp/blocs/message/mesaage_bloc.dart';
+import 'package:wasteapp/blocs/message/message_state.dart';
 import 'package:wasteapp/config/colors.dart';
 
 import '../../../utilities/constants/constants.dart';
@@ -9,41 +12,49 @@ import '../../../widgets/custom_app_bar.dart';
 import '../../../widgets/txt_widget.dart';
 import 'bubble_widget.dart';
 
-class InboxScreen extends StatelessWidget {
+class InboxScreen extends StatefulWidget {
   const InboxScreen({super.key});
 
   @override
+  State<InboxScreen> createState() => _InboxScreenState();
+}
+
+class _InboxScreenState extends State<InboxScreen> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(40),
-        child: CustomAppBar(
-          title: "Ali Akbar",
-          titleSpace: 10,
-          actions: <Widget>[
-            Image.asset(
-              "assets/icons/send.png",
-              height: 4.h,
-            ),
-            SizedBox(width: 1.5.w),
-            textWidget(
-              "Chats",
-              fontSize: 19.sp,
-              fontWeight: FontWeight.w700,
-            )
-          ],
+    return BlocListener<MessageBloc, MessageState>(
+      listener: (context, state) {},
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(40),
+          child: CustomAppBar(
+            title: "Ali Akbar",
+            titleSpace: 10,
+            actions: <Widget>[
+              Image.asset(
+                "assets/icons/send.png",
+                height: 4.h,
+              ),
+              SizedBox(width: 1.5.w),
+              textWidget(
+                "Chats",
+                fontSize: 19.sp,
+                fontWeight: FontWeight.w700,
+              )
+            ],
+          ),
         ),
-      ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 27, vertical: 23),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: BubbleWidget(),
-            ),
-            gapH10,
-            MessageTextField(),
-          ],
+        body: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 27, vertical: 23),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: BubbleWidget(),
+              ),
+              gapH10,
+              MessageTextField(),
+            ],
+          ),
         ),
       ),
     );

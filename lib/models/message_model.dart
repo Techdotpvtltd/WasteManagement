@@ -8,6 +8,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// Date:        21-03-24 12:43:10 -- Thursday
 /// Description:
 
+class GroupedMessageModel {
+  final DateTime date;
+  final List<MessageModel> messages;
+
+  GroupedMessageModel({required this.date, required this.messages});
+  @override
+  String toString() {
+    return 'GroupedMessage(date: $date, messages: $messages)';
+  }
+}
+
 class MessageModel {
   final String messageId;
   final String conversationId;

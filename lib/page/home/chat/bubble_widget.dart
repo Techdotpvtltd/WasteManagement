@@ -1,51 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:wasteapp/blocs/message/mesaage_bloc.dart';
+import 'package:wasteapp/blocs/message/message_state.dart';
 import 'package:wasteapp/config/colors.dart';
+import 'package:wasteapp/models/message_model.dart';
+import 'package:wasteapp/repos/user_repo.dart';
+import 'package:wasteapp/utilities/extensions/date_extension.dart';
 
+import '../../../repos/message_repo.dart';
 import '../../../utilities/constants/constants.dart';
 
-class BubbleWidget extends StatelessWidget {
+class BubbleWidget extends StatefulWidget {
   const BubbleWidget({super.key});
 
   @override
+  State<BubbleWidget> createState() => _BubbleWidgetState();
+}
+
+class _BubbleWidgetState extends State<BubbleWidget> {
+  bool isLoading = false;
+  List<GroupedMessageModel> messages = MessageRepo().messages;
+
+  Widget getMessageCell(MessageModel message) {
+    final String userId = UserRepo().currentUser.uid;
+    Widget currentWidget = SizedBox();
+
+    if (message.senderId == userId) {
+      switch (message.type) {
+        case MessageType.text:
+          currentWidget = _getBubble(BubbleMessageType.textSender, message);
+          break;
+        case MessageType.photo:
+          currentWidget = _getBubble(BubbleMessageType.imageSender, message);
+          break;
+        case MessageType.video:
+          currentWidget = _getBubble(BubbleMessageType.videoSender, message);
+          break;
+      }
+    } else {
+      switch (message.type) {
+        case MessageType.text:
+          currentWidget = _getBubble(BubbleMessageType.textReciever, message);
+          break;
+        case MessageType.photo:
+          currentWidget = _getBubble(BubbleMessageType.imageReciever, message);
+          break;
+        case MessageType.video:
+          currentWidget = _getBubble(BubbleMessageType.videoReciever, message);
+          break;
+      }
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: currentWidget,
+    );
+  }
+
+  @override
+  void initState() {
+    debugPrint(MessageRepo().messages.length.toString());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 1,
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              "Today",
-              style: GoogleFonts.plusJakartaSans(
-                color: Color(0xFF7C7C7C),
-                fontWeight: FontWeight.w700,
-                fontSize: 10,
+    return BlocListener<MessageBloc, MessageState>(
+      listener: (context, state) {
+        if (state is MessageStateFetchFailure ||
+            state is MessageStateFetching ||
+            state is MessageStateFetched) {
+          setState(() {
+            isLoading = state.isLoading;
+          });
+
+          if (state is MessageStateFetched) {
+            setState(() {
+              messages = MessageRepo().messages;
+            });
+          }
+        }
+      },
+      child: ListView.builder(
+        itemCount: messages.length,
+        reverse: true,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text(
+                messages[index].date.formatChatDateToString(),
+                style: GoogleFonts.plusJakartaSans(
+                  color: Color(0xFF7C7C7C),
+                  fontWeight: FontWeight.w700,
+                  fontSize: 10,
+                ),
               ),
-            ),
-            gapH18,
-            _getBubble(MessageType.product),
-            gapH26,
-            _getBubble(MessageType.textSender),
-            gapH26,
-            _getBubble(MessageType.textReciever),
-            gapH26,
-            _getBubble(MessageType.imageSender),
-            gapH26,
-            _getBubble(MessageType.imageReciever),
-            gapH26,
-            _getBubble(MessageType.videoSender),
-          ],
+              for (final message in messages[index].messages)
+                getMessageCell(message),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-Widget _getBubble(MessageType messageType) {
+Widget _getBubble(BubbleMessageType messageType, MessageModel message) {
   switch (messageType) {
-    case MessageType.product:
+    // ===========================Product Cell================================
+    case BubbleMessageType.product:
       return Container(
         width: screenWidth,
         height: screenHeight * 0.21,
@@ -83,7 +149,8 @@ Widget _getBubble(MessageType messageType) {
         ),
       );
 
-    case MessageType.textReciever:
+    // ===========================Text Reciever Cell================================
+    case BubbleMessageType.textReciever:
       return Align(
         alignment: Alignment.centerLeft,
         child: SizedBox(
@@ -99,7 +166,7 @@ Widget _getBubble(MessageType messageType) {
                   borderRadius: BorderRadius.all(Radius.circular(11)),
                 ),
                 child: Text(
-                  "In publishing and graphic design, Lorem ipsum is a placeholder text commonly",
+                  message.content,
                   style: GoogleFonts.plusJakartaSans(
                     color: const Color(0xFF6B6B6B),
                     fontSize: 12,
@@ -108,48 +175,27 @@ Widget _getBubble(MessageType messageType) {
                 ),
               ),
               gapH6,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 12,
-                        backgroundImage: AssetImage("assets/images/boy.png"),
-                      ),
-                      gapW6,
-                      Text(
-                        "Ali Akbar",
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 10.28,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF1E1E1E),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "09:04 PM",
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF7C7C7C),
-                    ),
-                  ),
-                ],
+              Text(
+                message.messageTime.dateToString("hh:mm a"),
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 9,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF7C7C7C),
+                ),
               )
             ],
           ),
         ),
       );
 
-    case MessageType.textSender:
+    // ===========================Text Sender Cell================================
+    case BubbleMessageType.textSender:
       return Align(
         alignment: Alignment.centerRight,
         child: SizedBox(
           width: screenWidth * 0.7,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
                 padding:
@@ -159,7 +205,7 @@ Widget _getBubble(MessageType messageType) {
                   borderRadius: BorderRadius.all(Radius.circular(11)),
                 ),
                 child: Text(
-                  "In publishing and graphic design, Lorem ipsum is a placeholder text commonly",
+                  message.content,
                   style: GoogleFonts.plusJakartaSans(
                     color: Colors.white,
                     fontSize: 12,
@@ -169,33 +215,39 @@ Widget _getBubble(MessageType messageType) {
               ),
               gapH6,
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    "09:04 PM",
+                    message.messageTime.dateToString("hh:mm a"),
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 9,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF7C7C7C),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Ali Akbar",
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 10.28,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF1E1E1E),
-                        ),
-                      ),
-                      gapW6,
-                      CircleAvatar(
-                        radius: 12,
-                        backgroundImage: AssetImage("assets/images/boy.png"),
-                      ),
-                    ],
+                  gapW10,
+                  SvgPicture.asset(
+                    "assets/icons/double-check-ic.svg",
+                    colorFilter:
+                        ColorFilter.mode(MyColors.primary, BlendMode.srcIn),
                   ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       "Ali Akbar",
+                  //       style: GoogleFonts.plusJakartaSans(
+                  //         fontSize: 10.28,
+                  //         fontWeight: FontWeight.w400,
+                  //         color: Color(0xFF1E1E1E),
+                  //       ),
+                  //     ),
+                  //     gapW6,
+                  //     CircleAvatar(
+                  //       radius: 12,
+                  //       backgroundImage: AssetImage("assets/images/boy.png"),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               )
             ],
@@ -203,91 +255,96 @@ Widget _getBubble(MessageType messageType) {
         ),
       );
 
-    case MessageType.imageSender:
+    // ===========================Image Sender Cell================================
+    case BubbleMessageType.imageSender:
       return Align(
         alignment: Alignment.centerRight,
-        child: Container(
-          padding: const EdgeInsets.all(3),
-          decoration: const BoxDecoration(
-            color: MyColors.primary,
-            borderRadius: BorderRadius.all(
-              Radius.circular(11),
-            ),
-          ),
-          child: Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(11),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(3),
+              width: 60.w,
+              decoration: const BoxDecoration(
+                color: MyColors.primary,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(11),
+                ),
+              ),
+              child: Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(11),
+                  ),
+                ),
+                child: Image.asset("assets/images/boy.png"),
               ),
             ),
-            child: Stack(
+            gapH6,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Image.asset("assets/images/boy.png"),
-                Positioned(
-                  right: 10,
-                  bottom: 4,
-                  child: Row(
-                    children: [
-                      Text(
-                        "09:04 PM",
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
-                        ),
-                      ),
-                      gapW6,
-                      SvgPicture.asset("assets/icons/double-check-ic.svg"),
-                    ],
+                Text(
+                  "09:04 PM",
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 9,
+                    fontWeight: FontWeight.w900,
+                    color: MyColors.primary,
                   ),
-                )
+                ),
+                gapW6,
+                SvgPicture.asset(
+                  "assets/icons/double-check-ic.svg",
+                  colorFilter:
+                      ColorFilter.mode(MyColors.primary, BlendMode.srcIn),
+                ),
               ],
+            )
+          ],
+        ),
+      );
+    // ===========================Image Reciever Cell================================
+    case BubbleMessageType.imageReciever:
+      return Align(
+        alignment: Alignment.centerLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                color: Colors.grey[500],
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(11),
+                ),
+              ),
+              child: Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(11),
+                  ),
+                ),
+                child: Image.asset(
+                  "assets/images/boy.png",
+                ),
+              ),
             ),
-          ),
+            gapH6,
+            Text(
+              "09:04 PM",
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 9,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF7C7C7C),
+              ),
+            ),
+          ],
         ),
       );
 
-    case MessageType.imageReciever:
-      return Align(
-        alignment: Alignment.centerLeft,
-        child: Container(
-          padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(
-            color: Colors.grey[500],
-            borderRadius: const BorderRadius.all(
-              Radius.circular(11),
-            ),
-          ),
-          child: Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(11),
-              ),
-            ),
-            child: Stack(
-              children: [
-                Image.asset(
-                  "assets/images/boy.png",
-                ),
-                Positioned(
-                  left: 10,
-                  bottom: 4,
-                  child: Text(
-                    "09:04 PM",
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      );
+    // ===========================Other Cell================================
     default:
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -309,7 +366,7 @@ Widget _getBubble(MessageType messageType) {
   }
 }
 
-enum MessageType {
+enum BubbleMessageType {
   product,
   textSender,
   textReciever,

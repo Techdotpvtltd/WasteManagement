@@ -21,7 +21,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
           emit(MessageStateFetching());
           await MessageRepo().fetchMessages();
           emit(MessageStateFetched());
-          debugPrint(MessageRepo().messages.length.toString());
         } on AppException catch (e) {
           emit(MessageStateFetchFailure(exception: e));
         }

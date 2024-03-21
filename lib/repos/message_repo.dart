@@ -5,6 +5,7 @@ import 'package:wasteapp/models/message_model.dart';
 import 'package:wasteapp/repos/conversation_repo.dart';
 import 'package:wasteapp/repos/user_repo.dart';
 import 'package:wasteapp/utilities/constants/constants.dart';
+import 'package:wasteapp/utilities/extensions/date_extension.dart';
 
 /// Project: 	   wasteapp
 /// File:    	   message_repo
@@ -21,7 +22,21 @@ class MessageRepo {
   // ====================================================================
 
   List<MessageModel> _messages = [];
-  List<MessageModel> get messages => _messages;
+  List<GroupedMessageModel> get messages {
+    final List<GroupedMessageModel> groupedMessages = [];
+    for (final message in _messages) {
+      final DateTime date = message.messageTime.onlyDate();
+      final int index =
+          groupedMessages.indexWhere((element) => element.date == date);
+      if (index > -1) {
+        groupedMessages[index].messages.add(message);
+      } else {
+        groupedMessages
+            .add(GroupedMessageModel(date: date, messages: [message]));
+      }
+    }
+    return groupedMessages;
+  }
 
   // Fetch Messages
   Future<void> fetchMessages() async {
