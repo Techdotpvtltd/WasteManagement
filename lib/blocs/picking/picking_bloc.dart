@@ -1,4 +1,5 @@
 // ignore: dangling_library_doc_comments
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasteapp/blocs/picking/picking_event.dart';
 import 'package:wasteapp/blocs/picking/picking_state.dart';
@@ -24,6 +25,7 @@ class PickingBloc extends Bloc<PickingEvent, PickingState> {
           emit(PickingStateTimePicked(timeModel: timeModel));
         } on AppException catch (e) {
           emit(PickingStatePickingTimeFailure(exception: e));
+          debugPrint(e.message.toLowerCase());
         }
       },
     );

@@ -1,11 +1,19 @@
 // ignore: dangling_library_doc_comments
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
+import 'package:wasteapp/exceptions/app_exceptions.dart';
+import 'package:wasteapp/exceptions/data_exceptions.dart';
 import 'package:wasteapp/exceptions/exception_parsing.dart';
 import 'package:wasteapp/models/message_model.dart';
 import 'package:wasteapp/repos/conversation_repo.dart';
 import 'package:wasteapp/repos/user_repo.dart';
 import 'package:wasteapp/utilities/constants/constants.dart';
 import 'package:wasteapp/utilities/extensions/date_extension.dart';
+
+import '../web_services/storage_services.dart';
 
 /// Project: 	   wasteapp
 /// File:    	   message_repo
@@ -21,7 +29,7 @@ class MessageRepo {
   factory MessageRepo() => _instance;
   // ====================================================================
 
-  List<MessageModel> _messages = [];
+  final List<MessageModel> _messages = [];
   List<GroupedMessageModel> get messages {
     final List<GroupedMessageModel> groupedMessages = [];
     for (final message in _messages) {
@@ -41,30 +49,59 @@ class MessageRepo {
   }
 
   // Fetch Messages
-  Future<void> fetchMessages() async {
-    try {
-      final String conversationId =
-          ConversationRepo().conversation.conversationId;
-      final FirebaseFirestore instance = FirebaseFirestore.instance;
-      final snapshotQuery = await instance
-          .collection(FIREBASE_COLLECTION_CONVERSATIONS)
-          .doc(conversationId)
-          .collection(FIREBASE_COLLECTION_MESSAGES)
-          .get();
-      final List<Map<String, dynamic>> mapData =
-          snapshotQuery.docs.map((e) => e.data()).toList();
-      _messages = mapData.map((e) => MessageModel.fromMap(e)).toList();
-    } catch (e) {
-      throw thrownAppException(e: e);
-    }
+  Future<void> fetchMessages(
+      {required VoidCallback onData,
+      required Function(AppException) onError}) async {
+    final String conversationId =
+        ConversationRepo().conversation.conversationId;
+    final FirebaseFirestore instance = FirebaseFirestore.instance;
+    final ref = instance
+        .collection(FIREBASE_COLLECTION_CONVERSATIONS)
+        .doc(conversationId)
+        .collection(FIREBASE_COLLECTION_MESSAGES);
+    // Create a Completer to signal completion
+    Completer<void> completer = Completer<void>();
+
+    ref.snapshots().listen(
+          (querySnapshot) {
+            for (final change in querySnapshot.docChanges) {
+              final Map<String, dynamic>? data = change.doc.data();
+              if (data != null) {
+                final MessageModel messageModel = MessageModel.fromMap(data);
+                final int index = _messages.indexWhere(
+                    (element) => element.messageId == messageModel.messageId);
+                if (index > -1) {
+                  _messages[index] = messageModel;
+                } else {
+                  _messages.add(messageModel);
+                }
+                onData();
+              }
+            }
+          },
+          onError: (e) => onError(thrownAppException(e: e)),
+          onDone: () {
+            // Signal completion on error as well
+            completer.complete();
+          },
+        );
+
+    // Wait for the operation to complete before returning
+    await completer.future;
   }
 
   // Send Message
   Future<void> sendMessage(
-      {required MessageType type, required String content}) async {
+      {required MessageType type,
+      required String content,
+      required VoidCallback onMessagePrepareToSend}) async {
     try {
       final String conversationId =
           ConversationRepo().conversation.conversationId;
+      if (content == "") {
+        throw throwDataException(
+            errorCode: "content-null", message: "Oops!, cant send the message");
+      }
       final String userId = UserRepo().currentUser.uid;
       final FirebaseFirestore instance = FirebaseFirestore.instance;
       final ref = instance
@@ -72,15 +109,32 @@ class MessageRepo {
           .doc(conversationId)
           .collection(FIREBASE_COLLECTION_MESSAGES)
           .doc();
+
+      String messageContent = content;
+
+      /// Add without conversationId means to check
+      /// if the message sent to firestore or not.
       final MessageModel messageModel = MessageModel(
           messageId: ref.id,
-          conversationId: conversationId,
+          conversationId: "",
           content: content,
           messageTime: DateTime.now(),
           type: type,
           senderId: userId);
+      _messages.add(messageModel);
+      onMessagePrepareToSend();
 
-      await ref.set(messageModel.toMap());
+      if (type == MessageType.photo) {
+        final String collectionPath =
+            "$FIREBASE_COLLECTION_MESSAGES/$conversationId/${ref.id}";
+        messageContent = await StorageService().uploadImage(
+            withFile: File(content), collectionPath: collectionPath);
+      }
+
+      final MessageModel updatedModel = messageModel.copyWith(
+          conversationId: conversationId, content: messageContent);
+
+      await ref.set(updatedModel.toMap());
     } catch (e) {
       throw thrownAppException(e: e);
     }

@@ -9,6 +9,7 @@ import 'package:wasteapp/config/colors.dart';
 import 'package:wasteapp/models/message_model.dart';
 import 'package:wasteapp/repos/user_repo.dart';
 import 'package:wasteapp/utilities/extensions/date_extension.dart';
+import 'package:wasteapp/widgets/custom_network_image.dart';
 
 import '../../../repos/message_repo.dart';
 import '../../../utilities/constants/constants.dart';
@@ -71,12 +72,14 @@ class _BubbleWidgetState extends State<BubbleWidget> {
       listener: (context, state) {
         if (state is MessageStateFetchFailure ||
             state is MessageStateFetching ||
-            state is MessageStateFetched) {
+            state is MessageStateFetched ||
+            state is MessageStatePrepareToSend) {
           setState(() {
             isLoading = state.isLoading;
           });
 
-          if (state is MessageStateFetched) {
+          if (state is MessageStateFetched ||
+              state is MessageStatePrepareToSend) {
             setState(() {
               messages = MessageRepo().messages;
             });
@@ -226,11 +229,20 @@ Widget _getBubble(BubbleMessageType messageType, MessageModel message) {
                     ),
                   ),
                   gapW10,
-                  SvgPicture.asset(
-                    "assets/icons/double-check-ic.svg",
-                    colorFilter:
-                        ColorFilter.mode(MyColors.primary, BlendMode.srcIn),
-                  ),
+                  message.conversationId != ""
+                      ? SvgPicture.asset(
+                          "assets/icons/double-check-ic.svg",
+                          colorFilter: ColorFilter.mode(
+                              MyColors.primary, BlendMode.srcIn),
+                        )
+                      : SizedBox(
+                          width: 10,
+                          height: 10,
+                          child: CircularProgressIndicator(
+                            color: MyColors.primary,
+                            strokeWidth: 1,
+                          ),
+                        ),
                   // Row(
                   //   children: [
                   //     Text(
@@ -278,7 +290,7 @@ Widget _getBubble(BubbleMessageType messageType, MessageModel message) {
                     Radius.circular(11),
                   ),
                 ),
-                child: Image.asset("assets/images/boy.png"),
+                child: CustomNetworkImage(imageUrl: message.content),
               ),
             ),
             gapH6,
@@ -294,11 +306,20 @@ Widget _getBubble(BubbleMessageType messageType, MessageModel message) {
                   ),
                 ),
                 gapW6,
-                SvgPicture.asset(
-                  "assets/icons/double-check-ic.svg",
-                  colorFilter:
-                      ColorFilter.mode(MyColors.primary, BlendMode.srcIn),
-                ),
+                message.conversationId != ""
+                    ? SvgPicture.asset(
+                        "assets/icons/double-check-ic.svg",
+                        colorFilter:
+                            ColorFilter.mode(MyColors.primary, BlendMode.srcIn),
+                      )
+                    : SizedBox(
+                        width: 10,
+                        height: 10,
+                        child: CircularProgressIndicator(
+                          color: MyColors.primary,
+                          strokeWidth: 1,
+                        ),
+                      ),
               ],
             )
           ],
@@ -326,9 +347,7 @@ Widget _getBubble(BubbleMessageType messageType, MessageModel message) {
                     Radius.circular(11),
                   ),
                 ),
-                child: Image.asset(
-                  "assets/images/boy.png",
-                ),
+                child: CustomNetworkImage(imageUrl: message.content),
               ),
             ),
             gapH6,

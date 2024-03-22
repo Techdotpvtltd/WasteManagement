@@ -44,3 +44,5 @@ class MessageStateSendFailure extends MessageState {
 }
 
 class MessageStateSent extends MessageState {}
+
+class MessageStatePrepareToSend extends MessageState {}
