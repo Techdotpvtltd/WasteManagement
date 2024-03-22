@@ -28,7 +28,7 @@ class _InboxScreenState extends State<InboxScreen> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(40),
           child: CustomAppBar(
-            title: "Ali Akbar",
+            title: "",
             titleSpace: 10,
             actions: <Widget>[
               Image.asset(

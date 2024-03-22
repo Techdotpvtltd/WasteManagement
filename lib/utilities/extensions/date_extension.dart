@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeExt on DateTime {
@@ -12,7 +11,6 @@ extension DateTimeExt on DateTime {
 
   String formatChatDateToString() {
     final days = DateTime.now().difference(this).inDays;
-    debugPrint(days.toString());
     if (days == 0) {
       return "Today";
     }

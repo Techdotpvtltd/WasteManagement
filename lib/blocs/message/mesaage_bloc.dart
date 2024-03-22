@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasteapp/blocs/message/message_event.dart';
 import 'package:wasteapp/blocs/message/message_state.dart';

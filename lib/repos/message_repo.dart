@@ -35,6 +35,8 @@ class MessageRepo {
             .add(GroupedMessageModel(date: date, messages: [message]));
       }
     }
+    groupedMessages.sort((a, b) =>
+        b.date.millisecondsSinceEpoch.compareTo(a.date.millisecondsSinceEpoch));
     return groupedMessages;
   }
 
