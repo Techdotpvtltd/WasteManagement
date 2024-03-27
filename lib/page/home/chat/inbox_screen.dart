@@ -1,3 +1,11 @@
+// ignore: dangling_library_doc_comments
+/// Project: 	   wasteapp
+/// File:    	   inbox_screen
+/// Path:    	   lib/page/home/chat/inbox_screen.dart
+/// Author:       Ali Akbar
+/// Date:        22-03-24 19:28:41 -- Friday
+/// Description:
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
