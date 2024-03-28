@@ -32,7 +32,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           final UserModel updatedModel = await UserRepo().update(
             name: event.name,
             email: event.email,
-            agent: event.agent ?? "",
+            apartment: event.apartment,
             phone: event.phone,
             imagePath: avatarUrl,
             location: event.location,

@@ -78,7 +78,7 @@ class UserRepo {
         uid: uid,
         name: name,
         email: email,
-        agent: "",
+        apartment: "",
         phoneNumber: phoneNumber ?? "",
         createdAt: DateTime.now(),
         avatar: avatarUrl ?? "",
@@ -101,7 +101,7 @@ class UserRepo {
     required String name,
     required String email,
     required String phone,
-    required String agent,
+    required String apartment,
     UserLocation? location,
     String? imagePath,
   }) async {
@@ -111,6 +111,7 @@ class UserRepo {
         email: email,
         phone: phone,
         location: location,
+        apartment: apartment,
       );
 
       /// There is no user profile
@@ -121,7 +122,7 @@ class UserRepo {
           email: email,
           location: location,
           phoneNumber: phone,
-          agent: agent,
+          apartment: apartment,
           createdAt: DateTime.now(),
           avatar: imagePath ?? "",
         );
@@ -138,7 +139,7 @@ class UserRepo {
         email: email,
         avatar: imagePath,
         location: location,
-        agent: agent,
+        apartment: apartment,
         phoneNumber: phone,
       );
 

@@ -2,7 +2,6 @@
 import 'package:wasteapp/exceptions/data_exceptions.dart';
 import 'package:wasteapp/exceptions/exception_parsing.dart';
 import 'package:wasteapp/models/picking_time_model.dart';
-import 'package:wasteapp/repos/user_repo.dart';
 import 'package:wasteapp/utilities/constants/constants.dart';
 import 'package:wasteapp/web_services/firestore_services.dart';
 
@@ -23,20 +22,13 @@ class PickingRepo {
 
   Future<PickingTimeModel> pickLatestTime() async {
     try {
-      final userSiteAreaCode = UserRepo().currentUser.siteAreaCode;
-      if (userSiteAreaCode == null) {
-        throw throwDataException(
-            errorCode: "site-area-not-assigned",
-            message: "User doesn't have sign area code.");
-      }
-      final Map<String, dynamic>? mapedData = await FirestoreService()
-          .fetchSingleRecord(
-              path: FIREBASE_COLLECTION_PICKING_TIMES, docId: userSiteAreaCode);
-      if (mapedData != null) {
-        timeModel = PickingTimeModel.fromMap(mapedData);
+      final mapedData = await FirestoreService().fetchWithMultipleConditions(
+          collection: FIREBASE_COLLECTION_PICKING_TIMES, queries: []);
+      // ignore: sdk_version_since
+      if (mapedData.firstOrNull != null) {
+        timeModel = PickingTimeModel.fromMap(mapedData.first);
         return timeModel!;
       }
-
       throw throwDataException(
           errorCode: "parsing-data-error", message: "Something went wrong");
     } catch (e) {

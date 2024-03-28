@@ -17,14 +17,14 @@ class UserEventUpdateProfile extends UserEvent {
   final String name;
   final String email;
   final String phone;
-  final String? agent;
+  final String apartment;
   final UserLocation? location;
   UserEventUpdateProfile({
     this.avatarUrl,
     required this.name,
     required this.email,
     required this.phone,
-    this.agent,
+    required this.apartment,
     this.location,
   });
 }

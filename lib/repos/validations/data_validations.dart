@@ -58,9 +58,14 @@ class DataValidation {
     String? email,
     String? phone,
     UserLocation? location,
+    String? apartment,
   }) async {
     if (name == null || name == "") {
       throw AuthExceptionFullNameRequired();
+    }
+
+    if (apartment == null || apartment == "") {
+      throw AuthExceptionUnknown(message: "Please select apartment.");
     }
 
     if (email == null) {

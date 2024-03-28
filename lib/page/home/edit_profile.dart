@@ -1,8 +1,11 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:place_picker/place_picker.dart';
+import 'package:remixicon/remixicon.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/blocs/user/user_bloc.dart';
 import 'package:wasteapp/blocs/user/user_event.dart';
@@ -31,6 +34,15 @@ class _EditProfileState extends State<EditProfile> {
   String? selctedAvatar;
   bool isLoading = false;
   String loadingText = "Loading...";
+  final List<String> apartments = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+  ];
+  String? selectedValue;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -38,13 +50,21 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController addressController = TextEditingController();
 
   void triggerUpdateProfileEvent(UserBloc bloc) {
-    bloc.add(UserEventUpdateProfile(
-      name: nameController.text,
-      email: emailController.text,
-      phone: phoneController.text,
-      location: userLocation,
-      avatarUrl: selctedAvatar,
-    ));
+    if (userLocation == null) {
+      CustomDilaogs().errorBox(message: "Please select or add address.");
+      return;
+    }
+
+    bloc.add(
+      UserEventUpdateProfile(
+        name: nameController.text,
+        email: emailController.text,
+        phone: phoneController.text,
+        location: userLocation,
+        avatarUrl: selctedAvatar,
+        apartment: selectedValue ?? "",
+      ),
+    );
   }
 
   @override
@@ -53,6 +73,7 @@ class _EditProfileState extends State<EditProfile> {
     if (!UserRepo().isUserNull) {
       final UserModel user = UserRepo().currentUser;
       selctedAvatar = user.avatar;
+      selectedValue = user.apartment;
       nameController.text = user.name;
       phoneController.text = user.phoneNumber;
       emailController.text = user.email;
@@ -175,52 +196,128 @@ class _EditProfileState extends State<EditProfile> {
                     suffixIcon: 'assets/icons/pen.png',
                   ),
                   SizedBox(height: 2.h),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      isExpanded: true,
+                      hint: Row(
+                        children: [
+                          Image.asset("assets/icons/city.png",
+                              height: 2.5.h, color: MyColors.primary),
+                          SizedBox(width: 3.w),
+                          Text(
+                            selectedValue ?? "Choose Apartment",
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 14.4.sp,
+                              fontWeight: selectedValue == null
+                                  ? FontWeight.w400
+                                  : FontWeight.w600,
+                              color: selectedValue == null
+                                  ? Colors.black54
+                                  : Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      items: apartments
+                          .map((String item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                      // value: selectedValue,
+                      onChanged: (String? value) {
+                        setState(() {
+                          selectedValue = value;
+                        });
+                      },
+                      buttonStyleData: ButtonStyleData(
+                        decoration: BoxDecoration(
+                            color: Color(0xffF7F7F7),
+                            borderRadius: BorderRadius.circular(28)),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        height: 6.h,
+                        width: 100.w,
+                      ),
+
+                      iconStyleData: IconStyleData(
+                        icon: Icon(
+                          Remix.arrow_down_s_line,
+                          size: 2.5.h,
+                        ),
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        height: 40,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
                   textFieldWithPrefixSuffuxIconAndHintText(
-                    "Address",
+                    "Add Address or select from map.",
                     controller: addressController,
                     radius: 34,
                     fillColor: Color(0xffF8F8F8),
                     bColor: Color(0xffE8ECF4),
                     hintColor: Color(0xff000000).withOpacity(0.40),
                     isPrefix: true,
-                    prefixIcon: "assets/icons/pp.png",
-                    onTap: () async {
-                      // Await for permission
-                      LocationPermission status =
-                          await Geolocator.checkPermission();
-                      if (status == LocationPermission.denied) {
-                        status = await Geolocator.requestPermission();
-                      }
+                    isSuffix: true,
+                    suffixWidget: IconButton(
+                      onPressed: () async {
+                        // Await for permission
+                        LocationPermission status =
+                            await Geolocator.checkPermission();
+                        if (status == LocationPermission.denied) {
+                          status = await Geolocator.requestPermission();
+                        }
 
-                      if (status == LocationPermission.denied ||
-                          status == LocationPermission.deniedForever) {
-                        CustomDilaogs().alertBox(
-                            message:
-                                "Please allow location permission from settings.",
-                            title: "Location Permission Denied.",
-                            positiveTitle: "Okay",
-                            showNegative: false);
+                        if (status == LocationPermission.denied ||
+                            status == LocationPermission.deniedForever) {
+                          CustomDilaogs().alertBox(
+                              message:
+                                  "Please allow location permission from settings.",
+                              title: "Location Permission Denied.",
+                              positiveTitle: "Okay",
+                              showNegative: false);
+                          return;
+                        }
+
+                        final LocationResult result =
+                            await NavigationService.go(
+                          PlacePicker(
+                            "AIzaSyCtEDCykUDeCa7QkT-LK63xQ7msSXNZoq0",
+                            defaultLocation: LatLng(
+                              userLocation?.latitude ?? 0,
+                              userLocation?.longitude ?? 0,
+                            ),
+                          ),
+                        );
+                        setState(() {
+                          addressController.text =
+                              result.formattedAddress ?? "";
+                        });
+                        userLocation = UserLocation(
+                            address: result.formattedAddress,
+                            city: result.city?.name,
+                            country: result.country?.name,
+                            latitude: result.latLng?.latitude,
+                            longitude: result.latLng?.longitude);
+                      },
+                      icon: Icon(
+                        Icons.location_searching,
+                        color: MyColors.primary,
+                      ),
+                    ),
+                    prefixIcon: "assets/icons/pp.png",
+                    onSubmitted: (address) {
+                      if (address == "" || address == " ") {
+                        userLocation = null;
                         return;
                       }
-
-                      final LocationResult result = await NavigationService.go(
-                        PlacePicker(
-                          "AIzaSyCtEDCykUDeCa7QkT-LK63xQ7msSXNZoq0",
-                          defaultLocation: LatLng(
-                            userLocation?.latitude ?? 0,
-                            userLocation?.longitude ?? 0,
-                          ),
-                        ),
-                      );
-                      setState(() {
-                        addressController.text = result.formattedAddress ?? "";
-                      });
-                      userLocation = UserLocation(
-                          address: result.formattedAddress,
-                          city: result.city?.name,
-                          country: result.country?.name,
-                          latitude: result.latLng?.latitude,
-                          longitude: result.latLng?.longitude);
+                      userLocation = UserLocation(address: address);
                     },
                   ),
                   SizedBox(height: 4.h),

@@ -6,6 +6,7 @@ import 'package:wasteapp/config/colors.dart';
 Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
     {suffixIcon,
     prefixIcon,
+    Widget? suffixWidget,
     TextEditingController? controller,
     int line = 1,
     bool isSuffix = false,
@@ -19,6 +20,7 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
     color,
     iconColor,
     bool obsecure = false,
+    Function(String)? onSubmitted,
     final VoidCallback? onTap,
     TextInputType? keyboardType}) {
   return StatefulBuilder(
@@ -31,6 +33,11 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
         readOnly: onTap != null,
         obscureText: obsecure,
         controller: controller,
+        onSubmitted: (value) {
+          if (onSubmitted != null) {
+            onSubmitted(value);
+          }
+        },
         style: GoogleFonts.plusJakartaSans(
             color: mainTxtColor ?? Colors.black, fontSize: 15.sp),
         decoration: InputDecoration(
@@ -50,10 +57,11 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
                             obsecure = !obsecure;
                           });
                         },
-                        child: Image.asset(
-                          suffixIcon ?? "assets/icons/eye.png",
-                          height: 2.h,
-                        )),
+                        child: suffixWidget ??
+                            Image.asset(
+                              suffixIcon ?? "assets/icons/eye.png",
+                              height: 2.h,
+                            )),
                   )
                 : const SizedBox(),
             prefixIconConstraints: BoxConstraints(minWidth: 8.w),

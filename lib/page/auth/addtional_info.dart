@@ -30,11 +30,13 @@ class AdditionalInfoPage extends StatefulWidget {
 }
 
 class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
-  final List<String> plan1 = [
-    "FSD",
-    'LHR',
-    "ISB",
-    "KR",
+  final List<String> apartments = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
   ];
   String? selectedValue;
   String? selectedAvatar;
@@ -46,13 +48,16 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
   UserLocation? location;
   void triggerUpdateProfileEvent(UserBloc bloc) {
     final user = FirebaseAuth.instance.currentUser;
-
+    if (location == null) {
+      CustomDilaogs().errorBox(message: "Please select or add address.");
+      return;
+    }
     bloc.add(
       UserEventUpdateProfile(
         name: nameController.text,
         phone: phoneController.text,
         email: user?.email ?? "",
-        agent: selectedValue ?? "",
+        apartment: selectedValue ?? "",
         avatarUrl: selectedAvatar,
         location: location!,
       ),
@@ -174,7 +179,7 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                                   height: 2.5.h, color: MyColors.primary),
                               SizedBox(width: 3.w),
                               Text(
-                                selectedValue ?? "Choose Agent",
+                                selectedValue ?? "Choose Apartment",
                                 style: GoogleFonts.plusJakartaSans(
                                   fontSize: 14.4.sp,
                                   fontWeight: selectedValue == null
@@ -187,7 +192,7 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                               ),
                             ],
                           ),
-                          items: plan1
+                          items: apartments
                               .map((String item) => DropdownMenuItem<String>(
                                     value: item,
                                     child: Text(
@@ -225,48 +230,62 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                       ),
                       SizedBox(height: 2.h),
                       textFieldWithPrefixSuffuxIconAndHintText(
-                        "Address",
+                        "Add Address or select from map",
                         controller: addressController,
                         radius: 34,
                         fillColor: Color(0xffF8F8F8),
                         bColor: Color(0xffE8ECF4),
                         hintColor: Color(0xff000000).withOpacity(0.40),
                         isPrefix: true,
+                        isSuffix: true,
                         prefixIcon: "assets/icons/pp.png",
-                        onTap: () async {
-                          // Await for permission
-                          LocationPermission status =
-                              await Geolocator.checkPermission();
-                          if (status == LocationPermission.denied) {
-                            status = await Geolocator.requestPermission();
-                          }
+                        suffixWidget: IconButton(
+                          onPressed: () async {
+                            // Await for permission
+                            LocationPermission status =
+                                await Geolocator.checkPermission();
+                            if (status == LocationPermission.denied) {
+                              status = await Geolocator.requestPermission();
+                            }
 
-                          if (status == LocationPermission.denied ||
-                              status == LocationPermission.deniedForever) {
-                            CustomDilaogs().alertBox(
-                                message:
-                                    "Please allow location permission from settings.",
-                                title: "Location Permission Denied.",
-                                positiveTitle: "Okay",
-                                showNegative: false);
+                            if (status == LocationPermission.denied ||
+                                status == LocationPermission.deniedForever) {
+                              CustomDilaogs().alertBox(
+                                  message:
+                                      "Please allow location permission from settings.",
+                                  title: "Location Permission Denied.",
+                                  positiveTitle: "Okay",
+                                  showNegative: false);
+                              return;
+                            }
+
+                            final LocationResult result =
+                                await NavigationService.go(
+                              PlacePicker(
+                                  "AIzaSyCtEDCykUDeCa7QkT-LK63xQ7msSXNZoq0"),
+                            );
+                            setState(() {
+                              addressController.text =
+                                  result.formattedAddress ?? "";
+                            });
+                            location = UserLocation(
+                                address: result.formattedAddress,
+                                city: result.city?.name,
+                                country: result.country?.name,
+                                latitude: result.latLng?.latitude,
+                                longitude: result.latLng?.longitude);
+                          },
+                          icon: Icon(
+                            Icons.location_searching,
+                            color: MyColors.primary,
+                          ),
+                        ),
+                        onSubmitted: (address) {
+                          if (address == "" || address == " ") {
+                            location = null;
                             return;
                           }
-
-                          final LocationResult result =
-                              await NavigationService.go(
-                            PlacePicker(
-                                "AIzaSyCtEDCykUDeCa7QkT-LK63xQ7msSXNZoq0"),
-                          );
-                          setState(() {
-                            addressController.text =
-                                result.formattedAddress ?? "";
-                          });
-                          location = UserLocation(
-                              address: result.formattedAddress,
-                              city: result.city?.name,
-                              country: result.country?.name,
-                              latitude: result.latLng?.latitude,
-                              longitude: result.latLng?.longitude);
+                          location = UserLocation(address: address);
                         },
                       ),
                       SizedBox(height: 4.h),

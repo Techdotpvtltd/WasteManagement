@@ -10,31 +10,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PickingTimeModel {
   final DateTime pickingTime;
-  final String siteAreaCode;
+  final String apartment;
   PickingTimeModel({
     required this.pickingTime,
-    required this.siteAreaCode,
+    required this.apartment,
   });
 
   factory PickingTimeModel.fromMap(Map<String, dynamic> map) {
     return PickingTimeModel(
       pickingTime: (map['pickingTime'] as Timestamp).toDate(),
-      siteAreaCode: map['siteAreaCode'] as String,
+      apartment: map['apartment'] as String? ?? "",
     );
   }
 
   @override
   String toString() =>
-      'PickingTimeModel(pickingTime: $pickingTime, siteAreaCode: $siteAreaCode)';
+      'PickingTimeModel(pickingTime: $pickingTime, apartment: $apartment)';
 
   @override
   bool operator ==(covariant PickingTimeModel other) {
     if (identical(this, other)) return true;
 
-    return other.pickingTime == pickingTime &&
-        other.siteAreaCode == siteAreaCode;
+    return other.pickingTime == pickingTime && other.apartment == apartment;
   }
 
   @override
-  int get hashCode => pickingTime.hashCode ^ siteAreaCode.hashCode;
+  int get hashCode => pickingTime.hashCode ^ apartment.hashCode;
 }

@@ -17,10 +17,9 @@ class UserModel {
   final String email;
   final String avatar;
   final String phoneNumber;
-  final String agent;
   final UserLocation? location;
   final DateTime createdAt;
-  final String? siteAreaCode;
+  final String apartment;
 
   UserModel({
     required this.uid,
@@ -29,9 +28,8 @@ class UserModel {
     required this.avatar,
     required this.createdAt,
     required this.phoneNumber,
-    required this.agent,
     this.location,
-    this.siteAreaCode,
+    required this.apartment,
   });
 
   UserModel copyWith({
@@ -40,7 +38,7 @@ class UserModel {
     String? email,
     String? avatar,
     String? phoneNumber,
-    String? agent,
+    String? apartment,
     String? address,
     DateTime? createdAt,
     UserLocation? location,
@@ -51,7 +49,7 @@ class UserModel {
       email: email ?? this.email,
       avatar: avatar ?? this.avatar,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      agent: agent ?? this.agent,
+      apartment: apartment ?? this.apartment,
       createdAt: createdAt ?? this.createdAt,
       location: location ?? this.location,
     );
@@ -64,7 +62,7 @@ class UserModel {
       'email': email,
       'avatar': avatar,
       'phone': phoneNumber,
-      'agent': agent,
+      'apartment': apartment,
       'createdAt': Timestamp.fromDate(createdAt),
       'location': location?.toMap(),
     };
@@ -77,23 +75,17 @@ class UserModel {
       email: map['email'] as String? ?? "",
       avatar: map['avatar'] as String? ?? "",
       phoneNumber: map['phone'] as String? ?? "",
-      agent: map['agent'] as String? ?? "",
+      apartment: map['apartment'] as String? ?? "",
       createdAt: (map['createdAt'] as Timestamp? ?? Timestamp.now()).toDate(),
       location: map['location'] != null
           ? UserLocation.fromMap(map['location'])
           : null,
-      siteAreaCode: map['siteAreaCode'] as String?,
     );
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name, email: $email, avatar: $avatar, createdAt: $createdAt, phone: $phoneNumber, agent: $agent), location: $location';
+    return 'UserModel(uid: $uid, name: $name, email: $email, avatar: $avatar, createdAt: $createdAt, phone: $phoneNumber, apartment: $apartment), location: $location';
   }
 
   @override
@@ -105,7 +97,7 @@ class UserModel {
         other.email == email &&
         other.avatar == avatar &&
         other.phoneNumber == phoneNumber &&
-        other.agent == agent &&
+        other.apartment == apartment &&
         other.location == location &&
         other.createdAt == createdAt;
   }
@@ -117,7 +109,7 @@ class UserModel {
         email.hashCode ^
         avatar.hashCode ^
         phoneNumber.hashCode ^
-        agent.hashCode ^
+        apartment.hashCode ^
         location.hashCode ^
         createdAt.hashCode;
   }
