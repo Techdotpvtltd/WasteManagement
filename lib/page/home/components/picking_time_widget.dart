@@ -36,7 +36,6 @@ class _PickingTimeWidgetState extends State<PickingTimeWidget> {
   String? remainingTime;
 
   void triggerTimer() {
-    debugPrint("tigger Time");
     timer ??= Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         remainingTime = remainigTime(model?.pickingTime);

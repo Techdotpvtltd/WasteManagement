@@ -56,9 +56,9 @@ class MessageRepo {
         ConversationRepo().conversation.conversationId;
     final FirebaseFirestore instance = FirebaseFirestore.instance;
     final ref = instance
-        .collection(FIREBASE_COLLECTION_CONVERSATIONS)
-        .doc(conversationId)
-        .collection(FIREBASE_COLLECTION_MESSAGES);
+        .collection(FIREBASE_COLLECTION_MESSAGES)
+        .where('conversationId', isEqualTo: conversationId);
+
     // Create a Completer to signal completion
     Completer<void> completer = Completer<void>();
 
@@ -75,6 +75,9 @@ class MessageRepo {
                 } else {
                   _messages.add(messageModel);
                 }
+                // Sort messages
+                _messages.sort((a, b) => a.messageTime.millisecondsSinceEpoch
+                    .compareTo(b.messageTime.millisecondsSinceEpoch));
                 onData();
               }
             }
@@ -104,11 +107,7 @@ class MessageRepo {
       }
       final String userId = UserRepo().currentUser.uid;
       final FirebaseFirestore instance = FirebaseFirestore.instance;
-      final ref = instance
-          .collection(FIREBASE_COLLECTION_CONVERSATIONS)
-          .doc(conversationId)
-          .collection(FIREBASE_COLLECTION_MESSAGES)
-          .doc();
+      final ref = instance.collection(FIREBASE_COLLECTION_MESSAGES).doc();
 
       String messageContent = content;
 

@@ -6,6 +6,8 @@ import 'package:remixicon/remixicon.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/repos/picking_repo.dart';
 import 'package:wasteapp/services/local_notification_services.dart';
+import 'package:wasteapp/utilities/dialogs/dialogs.dart';
+import 'package:wasteapp/utilities/extensions/date_extension.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
 import '../../config/colors.dart';
@@ -37,6 +39,10 @@ class _AlertPageState extends State<AlertPage> {
       minutes: -(selectedTime?.minute ?? 0),
       hours: -(selectedTime?.hour ?? 0),
     ));
+
+    CustomDilaogs().successBox(
+        title: "Alarm Set",
+        message: "We'll notify you at ${alarmTime.dateToString("hh:mm a")}");
     debugPrint(alarmTime.toString());
   }
 

@@ -298,7 +298,7 @@ Widget _getBubble(BubbleMessageType messageType, MessageModel message) {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  "09:04 PM",
+                  message.messageTime.dateToString("hh:mm a"),
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 9,
                     fontWeight: FontWeight.w900,
@@ -352,7 +352,7 @@ Widget _getBubble(BubbleMessageType messageType, MessageModel message) {
             ),
             gapH6,
             Text(
-              "09:04 PM",
+              message.messageTime.dateToString("hh:mm a"),
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 9,
                 fontWeight: FontWeight.w400,
