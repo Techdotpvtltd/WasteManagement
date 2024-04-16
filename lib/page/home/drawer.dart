@@ -58,7 +58,7 @@ class UserDrawer extends StatefulWidget {
 class _UserDrawerState extends State<UserDrawer> {
   int currentIndex = -1;
 
-  void triggerLoginEvent(AuthBloc bloc) {
+  void triggerLogoutEvent(AuthBloc bloc) {
     bloc.add(AuthEventPerformLogout());
   }
 
@@ -68,7 +68,12 @@ class _UserDrawerState extends State<UserDrawer> {
       init: MyDrawerController(),
       builder: (MyDrawerController _) => Stack(
         children: [
-          Positioned.fill(child: Image.asset("assets/images/dr.png")),
+          Positioned.fill(
+            child: Image.asset(
+              "assets/images/dr.png",
+              fit: BoxFit.cover,
+            ),
+          ),
           Positioned.fill(
             child: Scaffold(
               resizeToAvoidBottomInset: false,
@@ -78,24 +83,25 @@ class _UserDrawerState extends State<UserDrawer> {
                   return Stack(
                     children: [
                       ZoomDrawer(
-                          disableDragGesture: true,
-                          shadowLayer1Color: MyColors.white.withOpacity(0.0),
-                          shadowLayer2Color: MyColors.white.withOpacity(0.3),
-                          controller: _.zoomDrawerController,
-                          menuScreen: DrawerScreen(setIndex: (index) {
-                            setState(() {
-                              currentIndex = index;
-                              _.open = false;
-                            });
-                          }),
-                          mainScreen: Builder(builder: (context) {
-                            return currentScreen();
-                          }),
-                          borderRadius: 30,
-                          showShadow: true,
-                          angle: -7.0,
-                          slideWidth: 290,
-                          menuBackgroundColor: Colors.transparent),
+                        disableDragGesture: true,
+                        shadowLayer1Color: MyColors.white.withOpacity(0.0),
+                        shadowLayer2Color: MyColors.white.withOpacity(0.3),
+                        controller: _.zoomDrawerController,
+                        menuScreen: DrawerScreen(setIndex: (index) {
+                          setState(() {
+                            currentIndex = index;
+                            _.open = false;
+                          });
+                        }),
+                        mainScreen: Builder(builder: (context) {
+                          return currentScreen();
+                        }),
+                        borderRadius: 30,
+                        showShadow: true,
+                        angle: -7.0,
+                        slideWidth: 290,
+                        menuBackgroundColor: Colors.transparent,
+                      ),
                       _.open
                           ? Positioned.fill(
                               child: SafeArea(
@@ -191,7 +197,7 @@ class _UserDrawerState extends State<UserDrawer> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            triggerLoginEvent(
+                                            triggerLogoutEvent(
                                                 context.read<AuthBloc>());
                                           },
                                           child: Container(

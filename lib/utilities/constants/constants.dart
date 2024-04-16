@@ -1,10 +1,11 @@
 // Gap Height  ========================================
 
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 import 'package:flutter/widgets.dart';
 
 import '../../main.dart';
+import '../../repos/user_repo.dart';
 
 const SizedBox gapH2 = SizedBox(height: 2);
 const SizedBox gapH4 = SizedBox(height: 4);
@@ -73,3 +74,12 @@ const FIREBASE_COLLECTION_PICKING_TIMES = "pickingTimes";
 const FIREBASE_COLLECTION_SPECIAL_REQUESTS = "requests";
 const FIREBASE_COLLECTION_CONVERSATIONS = "conversations";
 const FIREBASE_COLLECTION_MESSAGES = "messages";
+
+// =========================== Push Notification ================================
+final PUSH_NOTIFICATION_CHAT = "chat-${UserRepo().currentUser.uid}";
+const PUSH_NOTIFICATION_TRASH_REMINDER = "trash-pickup-reminder";
+const PUSH_NOTIFICATION_CHANGE_PICKING_UP_TIME = "change-picking-up-time";
+final PUSH_NOTIFICATION_SPECIAL_REQUEST =
+    "request-${UserRepo().currentUser.uid}";
+final PUSH_NOTIFICATION_APPARTMENT =
+    "appartment-${UserRepo().currentUser.apartment}";

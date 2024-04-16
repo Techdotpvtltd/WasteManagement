@@ -6,6 +6,8 @@
 	<string>412634432030-tlog1m1lgefniap3a4ir4u7h4214letj.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.412634432030-tlog1m1lgefniap3a4ir4u7h4214letj</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>412634432030-tlr4j4n3737euu2knffjk40e114kuohs.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBZzSJI_-Z_K80nVbR54j0PdqX905Mjwf0</string>
 	<key>GCM_SENDER_ID</key>
@@ -30,5 +32,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:412634432030:ios:3d2aef19987eec18a0640f</string>
+	<key>DATABASE_URL</key>
+	<string>https://mt-waste-management-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

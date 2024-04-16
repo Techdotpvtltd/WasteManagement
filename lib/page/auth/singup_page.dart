@@ -27,20 +27,20 @@ class SingupPage extends StatefulWidget {
 }
 
 class _SingupPageState extends State<SingupPage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController confirmPasswordController =
+        TextEditingController();
 
-  void triggerSignupEvent(AuthBloc bloc) {
-    bloc.add(
-      AuthEventRegistering(
-          name: " ",
-          email: emailController.text,
-          password: passwordController.text,
-          confirmPassword: confirmPasswordController.text),
-    );
-  }
+    void triggerSignupEvent(AuthBloc bloc) {
+      bloc.add(
+        AuthEventRegistering(
+            name: " ",
+            email: emailController.text,
+            password: passwordController.text,
+            confirmPassword: confirmPasswordController.text),
+      );
+    }
 
   @override
   Widget build(BuildContext context) {

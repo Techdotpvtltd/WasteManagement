@@ -8,6 +8,8 @@ import '../../exceptions/auth_exceptions.dart';
 import '../../page/auth/splash_screen.dart';
 import '../../repos/auth_repo.dart';
 import '../../repos/user_repo.dart';
+import '../../services/notification_services/push_notification_services.dart';
+import '../../utilities/constants/constants.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
@@ -22,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventPerformLogout>(
       (event, emit) async {
         await AuthRepo().performLogout();
+        _removeRegisterPushNotifications();
         NavigationService.offAll(SplashScreen());
         emit(AuthStateInitialize());
       },
@@ -36,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
         await UserRepo().fetch();
         emit(AuthStateSplashActionDone());
+        _registerPushNotifications();
       } on AppException catch (e) {
         emit(AuthStateLoginRequired());
         debugPrint(e.message);
@@ -117,5 +121,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthStateLoginFailure(exception: e));
       }
     });
+  }
+
+  void _registerPushNotifications() {
+    final List<String> topics = [
+      PUSH_NOTIFICATION_CHAT,
+      PUSH_NOTIFICATION_TRASH_REMINDER,
+      PUSH_NOTIFICATION_APPARTMENT,
+      PUSH_NOTIFICATION_SPECIAL_REQUEST,
+      PUSH_NOTIFICATION_CHANGE_PICKING_UP_TIME,
+    ];
+
+    for (final String topic in topics) {
+      PushNotificationServices().subscribe(forTopic: topic);
+    }
+  }
+
+  void _removeRegisterPushNotifications() {
+    final List<String> topics = [
+      PUSH_NOTIFICATION_CHAT,
+      PUSH_NOTIFICATION_TRASH_REMINDER,
+      PUSH_NOTIFICATION_APPARTMENT,
+      PUSH_NOTIFICATION_SPECIAL_REQUEST,
+      PUSH_NOTIFICATION_CHANGE_PICKING_UP_TIME,
+    ];
+
+    for (final String topic in topics) {
+      PushNotificationServices().unsubscribe(forTopic: topic);
+    }
   }
 }

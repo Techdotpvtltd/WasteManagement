@@ -67,6 +67,8 @@ dependencies:
     git:
      url: https://github.com/pro-akbar/flutter_native_timezone.git
      ref: e794163
+  firebase_messaging: ^14.8.1
+  rxdart: ^0.27.7
 
 
 

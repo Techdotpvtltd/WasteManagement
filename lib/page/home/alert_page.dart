@@ -5,12 +5,12 @@ import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/repos/picking_repo.dart';
-import 'package:wasteapp/services/local_notification_services.dart';
 import 'package:wasteapp/utilities/dialogs/dialogs.dart';
 import 'package:wasteapp/utilities/extensions/date_extension.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
 import '../../config/colors.dart';
+import '../../services/notification_services/local_notification_services.dart';
 import '../../utilities/extensions/navigation_service.dart';
 import '../../widgets/custom_button.dart';
 
@@ -76,10 +76,11 @@ class _AlertPageState extends State<AlertPage> {
                 ),
                 SizedBox(height: 8.h),
                 Center(
-                    child: Image.asset(
-                  "assets/icons/bell3.png",
-                  height: 8.h,
-                )),
+                  child: Image.asset(
+                    "assets/icons/bell3.png",
+                    height: 8.h,
+                  ),
+                ),
                 SizedBox(height: 6.h),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),

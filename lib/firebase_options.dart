@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '412634432030',
     projectId: 'mt-waste-management',
     storageBucket: 'mt-waste-management.appspot.com',
-    iosClientId: '412634432030-tlog1m1lgefniap3a4ir4u7h4214letj.apps.googleusercontent.com',
+    iosClientId:
+        '412634432030-tlog1m1lgefniap3a4ir4u7h4214letj.apps.googleusercontent.com',
     iosBundleId: 'com.techdot.waste',
   );
 }
