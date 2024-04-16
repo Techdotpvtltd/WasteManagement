@@ -65,19 +65,20 @@ class _HomePageState extends State<HomePage> {
                             Image.asset("assets/icons/draw.png", height: 1.8.h),
                       ),
                       Spacer(),
-                      InkWell(
-                          onTap: () {
-                            NavigationService.go(
-                              NotificationScreen(
-                                isDrawer: false,
-                              ),
-                            );
-                          },
-                          child: Image.asset(
-                            "assets/icons/bell2.png",
-                            height: 4.2.h,
-                          )),
-                      SizedBox(width: 2.w),
+                      // InkWell(
+                      //   onTap: () {
+                      //     NavigationService.go(
+                      //       NotificationScreen(
+                      //         isDrawer: false,
+                      //       ),
+                      //     );
+                      //   },
+                      //   child: Image.asset(
+                      //     "assets/icons/bell2.png",
+                      //     height: 4.2.h,
+                      //   ),
+                      // ),
+                      // SizedBox(width: 2.w),
                       Image.asset(
                         "assets/icons/ll.png",
                         height: 4.0.h,
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 3.h),
                   InkWell(
                     onTap: () {
-                      NavigationService.go(PickupPage());
+                      // NavigationService.go(PickupPage());
                     },
                     child: PickingTimeWidget(),
                   ),
@@ -200,12 +201,12 @@ class _HomePageState extends State<HomePage> {
                                         "Chats",
                                         fontSize: 16.sp,
                                       ),
-                                      SizedBox(height: 0.3.h),
-                                      textWidget(
-                                        "2 New Chats",
-                                        color: MyColors.primary,
-                                        fontSize: 13.sp,
-                                      ),
+                                      // SizedBox(height: 0.3.h),
+                                      // textWidget(
+                                      //   "2 New Chats",
+                                      //   color: MyColors.primary,
+                                      //   fontSize: 13.sp,
+                                      // ),
                                     ],
                                   ),
                                   Spacer(),

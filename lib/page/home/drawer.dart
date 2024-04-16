@@ -33,7 +33,7 @@ List titles = [
   "Terms & Conditions",
   "Change Password",
   "Feedback",
-  "Notification",
+  // "Notification",
 
   // "Setting",
 ];
@@ -45,7 +45,7 @@ List images = [
   "assets/icons/d4.png",
   "assets/icons/d5.png",
   "assets/icons/d6.png",
-  "assets/icons/d7.png",
+  // "assets/icons/d7.png",
 ];
 
 class UserDrawer extends StatefulWidget {

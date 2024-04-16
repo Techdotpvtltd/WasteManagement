@@ -9,6 +9,8 @@ import 'package:flutter/foundation.dart';
 /// Description:
 import 'package:rxdart/rxdart.dart';
 
+import 'local_notification_services.dart';
+
 class PushNotificationServices {
   static final PushNotificationServices _instance =
       PushNotificationServices._internal();
@@ -55,7 +57,13 @@ class PushNotificationServices {
     }
   }
 
-  void _firebaseMessagingForgroundHandler() {
+  void _firebaseMessagingForgroundHandler() async {
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (kDebugMode) {
         print('Handling a foreground message: ${message.messageId}');
@@ -64,6 +72,7 @@ class PushNotificationServices {
         print('Message notification: ${message.notification?.body}');
       }
 
+      LocalNotificationServices.showNotification(message);
       messageStreamController.sink.add(message);
     });
   }

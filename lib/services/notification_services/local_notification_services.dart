@@ -1,4 +1,5 @@
 // ignore: dangling_library_doc_comments
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -72,5 +73,40 @@ class LocalNotificationServices {
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
+  }
+
+  static Future<void> showNotification(RemoteMessage payload) async {
+    var android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initiallizationSettingsIOS = DarwinInitializationSettings();
+    var initialSetting = InitializationSettings(
+        android: android, iOS: initiallizationSettingsIOS);
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initialSetting);
+
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
+      'default_notification_channel_id',
+      'Notification',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+      icon: "@mipmap/ic_launcher",
+      playSound: true,
+    );
+    const iOSDetails = DarwinNotificationDetails();
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidDetails, iOS: iOSDetails);
+    final String type = payload.data['type'];
+
+    // TODO: UN Comment It  NEXT TIME
+    // if (type != "message") {
+    //   await flutterLocalNotificationsPlugin.show(0, payload.notification!.title,
+    //       payload.notification!.body, platformChannelSpecifics);
+    // }
+
+    // TODO: UPDATE IT NEXT TIME
+    await flutterLocalNotificationsPlugin.show(0, payload.notification!.title,
+        payload.notification!.body, platformChannelSpecifics);
   }
 }
