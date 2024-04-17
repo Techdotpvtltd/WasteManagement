@@ -13,13 +13,9 @@ import 'package:wasteapp/blocs/user/user_bloc.dart';
 import 'package:wasteapp/blocs/user/user_state.dart';
 import 'package:wasteapp/config/colors.dart';
 import 'package:wasteapp/models/user_model.dart';
-import 'package:wasteapp/page/auth/change_password.dart';
 import 'package:wasteapp/page/auth/forgot_password.dart';
 import 'package:wasteapp/page/home/edit_profile.dart';
-import 'package:wasteapp/page/home/give_review.dart';
 import 'package:wasteapp/page/home/home_page.dart';
-import 'package:wasteapp/page/home/notificaton_page.dart';
-import 'package:wasteapp/page/home/support_page.dart';
 import 'package:wasteapp/page/home/terms_page.dart';
 import 'package:wasteapp/repos/user_repo.dart';
 import 'package:wasteapp/utilities/extensions/navigation_service.dart';
@@ -248,12 +244,12 @@ class _UserDrawerState extends State<UserDrawer> {
       case 3:
         return ForgotPassword(isDrawer: true);
       // case 4:
-        return GiveReview(
-          isDrawer: true,
-          requestId: "",
-        );
-      // case 5:
-      //   return NotificationScreen(
+      //   return GiveReview(
+      //     isDrawer: true,
+      //     requestId: "",
+      //   );
+      // // case 5:
+      // //   return NotificationScreen(
       //     isDrawer: true,
       //   );
 

@@ -97,15 +97,7 @@ class LocalNotificationServices {
     const iOSDetails = DarwinNotificationDetails();
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidDetails, iOS: iOSDetails);
-    final String type = payload.data['type'];
 
-    // TODO: UN Comment It  NEXT TIME
-    // if (type != "message") {
-    //   await flutterLocalNotificationsPlugin.show(0, payload.notification!.title,
-    //       payload.notification!.body, platformChannelSpecifics);
-    // }
-
-    // TODO: UPDATE IT NEXT TIME
     await flutterLocalNotificationsPlugin.show(0, payload.notification!.title,
         payload.notification!.body, platformChannelSpecifics);
   }

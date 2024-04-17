@@ -19,6 +19,7 @@ import 'package:wasteapp/config/colors.dart';
 import 'package:wasteapp/models/message_model.dart';
 import 'package:wasteapp/widgets/my_image_picker.dart';
 
+import '../../../manager/app_manager.dart';
 import '../../../utilities/constants/constants.dart';
 import '../../../widgets/custom_app_bar.dart';
 import '../../../widgets/txt_widget.dart';
@@ -55,6 +56,19 @@ class _InboxScreenState extends State<InboxScreen> {
   void triggerSenderMessageEvent() {
     context.read<MessageBloc>().add(MessageEventSend(
         content: messageController.text, type: MessageType.text));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<MessageBloc>().add(MessageEventNew(isNew: false));
+    AppManager().isInChat = true;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    AppManager().isInChat = false;
   }
 
   @override

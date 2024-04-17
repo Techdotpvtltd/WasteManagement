@@ -16,6 +16,7 @@ import 'package:wasteapp/page/home/special_request.dart';
 import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
+import '../../blocs/message/message_state.dart';
 import '../../models/terms_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,11 +28,26 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<TermsModel> terms = [
-    TermsModel(title: "Rule #1", description: "Maintain a secure database of registered users, categorized by flat numbers or specific locations for efficient trash collection management.\nEnsure user profiles are accurate and up-to-date to facilitate effective communication and notifications."),
-    TermsModel(title: "Rule #2", description: "Use a centralized system to manage and update trash pickup schedules based on designated routes and locations.\nEnsure timely updates to reflect any changes or adjustments in the pickup schedule."),
-    TermsModel(title: "Rule #3", description: "Integrate an alert system to notify users and operational staff about upcoming trash pickups and special requests.\nCustomize alerts based on user preferences and scheduled pickup times to optimize efficiency."),
-    TermsModel(title: "Rule #4", description: "Establish protocols for processing special requests (e.g., extra trash pickup) submitted by users through the app."),
-    TermsModel(title: "Rule #5", description: "Implement internal communication channels (e.g., chat, notifications) to facilitate direct communication between operational staff and users.\nMonitor communication logs for feedback, inquiries, or service-related issues.\n\nUtilize location-based services to track and manage trash collection routes, ensuring timely pickups at designated locations.\nCoordinate with field staff based on location-specific notifications and updates."),
+    TermsModel(
+        title: "Rule #1",
+        description:
+            "Maintain a secure database of registered users, categorized by flat numbers or specific locations for efficient trash collection management.\nEnsure user profiles are accurate and up-to-date to facilitate effective communication and notifications."),
+    TermsModel(
+        title: "Rule #2",
+        description:
+            "Use a centralized system to manage and update trash pickup schedules based on designated routes and locations.\nEnsure timely updates to reflect any changes or adjustments in the pickup schedule."),
+    TermsModel(
+        title: "Rule #3",
+        description:
+            "Integrate an alert system to notify users and operational staff about upcoming trash pickups and special requests.\nCustomize alerts based on user preferences and scheduled pickup times to optimize efficiency."),
+    TermsModel(
+        title: "Rule #4",
+        description:
+            "Establish protocols for processing special requests (e.g., extra trash pickup) submitted by users through the app."),
+    TermsModel(
+        title: "Rule #5",
+        description:
+            "Implement internal communication channels (e.g., chat, notifications) to facilitate direct communication between operational staff and users.\nMonitor communication logs for feedback, inquiries, or service-related issues.\n\nUtilize location-based services to track and manage trash collection routes, ensuring timely pickups at designated locations.\nCoordinate with field staff based on location-specific notifications and updates."),
   ];
   void triggerConversationEvent() {
     context.read<ConversationBloc>().add(ConversationEventCreateOrFetch());
@@ -208,12 +224,23 @@ class _HomePageState extends State<HomePage> {
                                         "Chats",
                                         fontSize: 16.sp,
                                       ),
-                                      // SizedBox(height: 0.3.h),
-                                      // textWidget(
-                                      //   "2 New Chats",
-                                      //   color: MyColors.primary,
-                                      //   fontSize: 13.sp,
-                                      // ),
+                                      SizedBox(height: 0.3.h),
+                                      BlocSelector<MessageBloc, MessageState,
+                                          bool?>(selector: (state) {
+                                        if (state is MessageStateNew) {
+                                          return state.isNew;
+                                        }
+                                        return false;
+                                      }, builder: (context, value) {
+                                        return Visibility(
+                                          visible: value ?? false,
+                                          child: textWidget(
+                                            "New Messages",
+                                            color: MyColors.primary,
+                                            fontSize: 13.sp,
+                                          ),
+                                        );
+                                      }),
                                     ],
                                   ),
                                   Spacer(),
@@ -249,25 +276,25 @@ class _HomePageState extends State<HomePage> {
                             color: Color(0xff761E37),
                             thickness: 0.2.w,
                           ),
-                          for(int i = 0; i<terms.length; i++)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 1.7.h),
-                              textWidget(
-                                "Rule #${i + 1}:",
-                                fontSize: 14.5.sp,
-                                color: Color(0xffD45640),
-                                fontWeight: FontWeight.w800,
-                              ),
-                              SizedBox(height: 0.4.h),
-                              textWidget(
-                                terms[i].description,
-                                fontSize: 13.6.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ],
-                          ),
+                          for (int i = 0; i < terms.length; i++)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 1.7.h),
+                                textWidget(
+                                  "Rule #${i + 1}:",
+                                  fontSize: 14.5.sp,
+                                  color: Color(0xffD45640),
+                                  fontWeight: FontWeight.w800,
+                                ),
+                                SizedBox(height: 0.4.h),
+                                textWidget(
+                                  terms[i].description,
+                                  fontSize: 13.6.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
+                            ),
                         ],
                       ),
                     ),

@@ -49,5 +49,9 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         }
       },
     );
+
+    // ON New Message
+    on<MessageEventNew>(
+        (event, emit) => emit(MessageStateNew(isNew: event.isNew)));
   }
 }

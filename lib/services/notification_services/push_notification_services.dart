@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Project: 	   burns_construction
 /// File:    	   push_notification_services
@@ -9,6 +10,10 @@ import 'package:flutter/foundation.dart';
 /// Description:
 import 'package:rxdart/rxdart.dart';
 
+import '../../blocs/message/mesaage_bloc.dart';
+import '../../blocs/message/message_event.dart';
+import '../../main.dart';
+import '../../manager/app_manager.dart';
 import 'local_notification_services.dart';
 
 class PushNotificationServices {
@@ -65,15 +70,25 @@ class PushNotificationServices {
       sound: true,
     );
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final String type = message.data['type'];
+      if (type == 'message') {
+        if (AppManager().isInChat) {
+          return;
+        }
+        (navKey.currentContext)!
+            .read<MessageBloc>()
+            .add(MessageEventNew(isNew: true));
+        return;
+      }
+
       if (kDebugMode) {
         print('Handling a foreground message: ${message.messageId}');
         print('Message data: ${message.data}');
         print('Message notification: ${message.notification?.title}');
         print('Message notification: ${message.notification?.body}');
       }
-
-      LocalNotificationServices.showNotification(message);
       messageStreamController.sink.add(message);
+      LocalNotificationServices.showNotification(message);
     });
   }
 }

@@ -46,3 +46,9 @@ class MessageStateSendFailure extends MessageState {
 class MessageStateSent extends MessageState {}
 
 class MessageStatePrepareToSend extends MessageState {}
+
+class MessageStateNew extends MessageState {
+  final bool isNew;
+
+  MessageStateNew({required this.isNew});
+}

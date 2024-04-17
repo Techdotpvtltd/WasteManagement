@@ -20,3 +20,9 @@ class MessageEventSend extends MessageEvent {
 
   MessageEventSend({required this.content, required this.type});
 }
+
+class MessageEventNew extends MessageEvent {
+  final bool isNew;
+
+  MessageEventNew({required this.isNew});
+}
