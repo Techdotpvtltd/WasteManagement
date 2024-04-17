@@ -105,6 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthStateLogging(loadingText: "Signing with Apple."));
         await AuthRepo().loginWithApple();
         emit(AuthStateAppleLoggedIn());
+        _registerPushNotifications();
       } on AppException catch (e) {
         emit(AuthStateLoginFailure(exception: e));
       }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:wasteapp/blocs/auth/auth_bloc.dart';
 import 'package:wasteapp/blocs/auth/auth_event.dart';
 import 'package:wasteapp/blocs/auth/auth_state.dart';
+import 'package:wasteapp/page/home/drawer.dart';
 import 'package:wasteapp/utilities/dialogs/dialogs.dart';
 import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 import 'package:wasteapp/widgets/txt_field.dart';
@@ -14,8 +16,8 @@ import '../../config/colors.dart';
 import '../../widgets/custom_button.dart';
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
-
+  const ForgotPassword({super.key,  this.isDrawer = false});
+  final bool isDrawer;
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
 }
@@ -71,7 +73,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 children: [
                   Row(
                     children: [
-                      InkWell(
+                      widget.isDrawer
+                          ? InkWell(
+                        onTap: () {
+                          Get.find<MyDrawerController>().toggleDrawer();
+                        },
+                        child: Image.asset(
+                          "assets/icons/draw.png",
+                          height: 1.8.h,
+                        ),
+                      )
+                          : InkWell(
                         onTap: () {
                           NavigationService.back();
                         },

@@ -14,6 +14,7 @@ import 'package:wasteapp/blocs/user/user_state.dart';
 import 'package:wasteapp/config/colors.dart';
 import 'package:wasteapp/models/user_model.dart';
 import 'package:wasteapp/page/auth/change_password.dart';
+import 'package:wasteapp/page/auth/forgot_password.dart';
 import 'package:wasteapp/page/home/edit_profile.dart';
 import 'package:wasteapp/page/home/give_review.dart';
 import 'package:wasteapp/page/home/home_page.dart';
@@ -27,12 +28,11 @@ import 'package:wasteapp/widgets/txt_widget.dart';
 
 List titles = [
   "Home",
-  "Contact Support",
-
+  // "Contact Support",
   "Edit Profile",
   "Terms & Conditions",
   "Change Password",
-  "Feedback",
+  // "Feedback",
   // "Notification",
 
   // "Setting",
@@ -40,11 +40,11 @@ List titles = [
 
 List images = [
   "assets/icons/d1.png",
-  "assets/icons/d2.png",
+  // "assets/icons/d2.png",
   "assets/icons/d3.png",
   "assets/icons/d4.png",
   "assets/icons/d5.png",
-  "assets/icons/d6.png",
+  // "assets/icons/d6.png",
   // "assets/icons/d7.png",
 ];
 
@@ -238,24 +238,24 @@ class _UserDrawerState extends State<UserDrawer> {
     switch (currentIndex) {
       case 0:
         return HomePage();
+      // case 1:
+      //   return CustomerSupport();
       case 1:
-        return CustomerSupport();
-      case 2:
         return EditProfile();
 
-      case 3:
+      case 2:
         return TermsPage();
-      case 4:
-        return ChangePassword();
-      case 5:
+      case 3:
+        return ForgotPassword(isDrawer: true);
+      // case 4:
         return GiveReview(
           isDrawer: true,
           requestId: "",
         );
-      case 6:
-        return NotificationScreen(
-          isDrawer: true,
-        );
+      // case 5:
+      //   return NotificationScreen(
+      //     isDrawer: true,
+      //   );
 
       default:
         return HomePage();
