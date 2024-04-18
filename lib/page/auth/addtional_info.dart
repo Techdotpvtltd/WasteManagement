@@ -19,7 +19,11 @@ import 'package:wasteapp/widgets/avatar_widget.dart';
 import 'package:wasteapp/widgets/custom_button.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
+import '../../blocs/appartment/appartment_bloc.dart';
+import '../../blocs/appartment/appartment_event.dart';
+import '../../blocs/appartment/appartment_state.dart';
 import '../../models/user_model.dart';
+import '../../repos/appartment_repo.dart';
 import '../../widgets/txt_field.dart';
 
 class AdditionalInfoPage extends StatefulWidget {
@@ -30,14 +34,8 @@ class AdditionalInfoPage extends StatefulWidget {
 }
 
 class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
-  final List<String> apartments = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-  ];
+  List<String> apartments =
+      AppartmentRepo().appartments.map((e) => e.appartment).toList();
   String? selectedValue;
   String? selectedAvatar;
   final TextEditingController nameController = TextEditingController();
@@ -45,6 +43,8 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
   final TextEditingController addressController = TextEditingController();
   String loadingText = "Loading";
   bool isLoading = false;
+  bool isFetchingApartments = false;
+
   UserLocation? location;
   void triggerUpdateProfileEvent(UserBloc bloc) {
     final user = FirebaseAuth.instance.currentUser;
@@ -62,6 +62,16 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
         location: location!,
       ),
     );
+  }
+
+  void triggerFetchApartments() {
+    context.read<AppartmentBloc>().add(AppartmentEventFetch());
+  }
+
+  @override
+  void initState() {
+    triggerFetchApartments();
+    super.initState();
   }
 
   @override
@@ -170,61 +180,86 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                         prefixIcon: "assets/icons/phone.png",
                       ),
                       SizedBox(height: 2.h),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton2<String>(
-                          isExpanded: true,
-                          hint: Row(
-                            children: [
-                              Image.asset("assets/icons/city.png",
-                                  height: 2.5.h, color: MyColors.primary),
-                              SizedBox(width: 3.w),
-                              Text(
-                                selectedValue ?? "Choose Apartment",
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 14.4.sp,
-                                  fontWeight: selectedValue == null
-                                      ? FontWeight.w400
-                                      : FontWeight.w600,
-                                  color: selectedValue == null
-                                      ? Colors.black54
-                                      : Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                          items: apartments
-                              .map((String item) => DropdownMenuItem<String>(
-                                    value: item,
-                                    child: Text(
-                                      item,
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: 14.sp,
-                                      ),
-                                    ),
-                                  ))
-                              .toList(),
-                          // value: selectedValue,
-                          onChanged: (String? value) {
+                      BlocListener<AppartmentBloc, AppartmentState>(
+                        listener: (BuildContext context, state) {
+                          if (state is AppartmentStateFetching ||
+                              state is AppartmentStateFetchFailure ||
+                              state is AppartmentStateFetched) {
                             setState(() {
-                              selectedValue = value;
+                              isFetchingApartments = state.isLoading;
                             });
-                          },
-                          buttonStyleData: ButtonStyleData(
-                            decoration: BoxDecoration(
-                                color: Color(0xffF7F7F7),
-                                borderRadius: BorderRadius.circular(28)),
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            height: 6.h,
-                            width: 100.w,
-                          ),
 
-                          iconStyleData: IconStyleData(
+                            if (state is AppartmentStateFetchFailure) {}
+                            if (state is AppartmentStateFetched) {
+                              setState(() {
+                                apartments = AppartmentRepo()
+                                    .appartments
+                                    .map((e) => e.appartment)
+                                    .toList();
+                              });
+                            }
+                          }
+                        },
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton2<String>(
+                            isExpanded: true,
+
+                            hint: Row(
+                              children: [
+                                Image.asset("assets/icons/city.png",
+                                    height: 2.5.h, color: MyColors.primary),
+                                SizedBox(width: 3.w),
+                                Text(
+                                  isFetchingApartments
+                                      ? "Fetching, Please wait..."
+                                      : selectedValue ?? "Choose Apartment",
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 14.4.sp,
+                                    fontWeight: selectedValue == null
+                                        ? FontWeight.w400
+                                        : FontWeight.w600,
+                                    color: selectedValue == null
+                                        ? Colors.black54
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            items: apartments
+                                .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: GoogleFonts.plusJakartaSans(
+                                          fontSize: 14.sp,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                            // value: selectedValue,
+                            onChanged: (String? value) {
+                              setState(() {
+                                selectedValue = value;
+                              });
+                            },
+                            buttonStyleData: ButtonStyleData(
+                              decoration: BoxDecoration(
+                                  color: Color(0xffF7F7F7),
+                                  borderRadius: BorderRadius.circular(28)),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              height: 6.h,
+                              width: 100.w,
+                            ),
+
+                            iconStyleData: IconStyleData(
                               icon: Icon(
-                            Remix.arrow_down_s_line,
-                            size: 2.5.h,
-                          )),
-                          menuItemStyleData: const MenuItemStyleData(
-                            height: 40,
+                                Remix.arrow_down_s_line,
+                                size: 2.5.h,
+                              ),
+                            ),
+                            menuItemStyleData: const MenuItemStyleData(
+                              height: 40,
+                            ),
                           ),
                         ),
                       ),

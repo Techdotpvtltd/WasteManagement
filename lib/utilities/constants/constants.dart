@@ -74,6 +74,7 @@ const FIREBASE_COLLECTION_PICKING_TIMES = "pickingTimes";
 const FIREBASE_COLLECTION_SPECIAL_REQUESTS = "requests";
 const FIREBASE_COLLECTION_CONVERSATIONS = "conversations";
 const FIREBASE_COLLECTION_MESSAGES = "messages";
+const FIREBASE_COLLECTION_APPARTMENT = "appartment";
 
 // =========================== Push Notification ================================
 final PUSH_NOTIFICATION_CHAT = "chat-${UserRepo().currentUser.uid}";

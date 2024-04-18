@@ -19,7 +19,13 @@ import 'package:wasteapp/widgets/avatar_widget.dart';
 import 'package:wasteapp/widgets/txt_field.dart';
 import 'package:wasteapp/widgets/txt_widget.dart';
 
+import '../../blocs/appartment/appartment_bloc.dart';
+import '../../blocs/appartment/appartment_event.dart';
+import '../../blocs/appartment/appartment_state.dart';
 import '../../config/colors.dart';
+import '../../repos/appartment_repo.dart';
+import '../../services/notification_services/push_notification_services.dart';
+import '../../utilities/constants/constants.dart';
 import '../../widgets/custom_button.dart';
 
 class EditProfile extends StatefulWidget {
@@ -32,16 +38,13 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   UserLocation? userLocation;
   String? selctedAvatar;
+  String? oldSelectedApartment;
   bool isLoading = false;
   String loadingText = "Loading...";
-  final List<String> apartments = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-  ];
+  bool isFetchingApartments = false;
+
+  List<String> apartments =
+      AppartmentRepo().appartments.map((e) => e.appartment).toList();
   String? selectedValue;
 
   final TextEditingController nameController = TextEditingController();
@@ -67,6 +70,19 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  void checkAndUpdateNotification() {
+    if (selectedValue != oldSelectedApartment) {
+      final String topic = "appartment-$selectedValue";
+      PushNotificationServices().unsubscribe(forTopic: topic);
+      PushNotificationServices()
+          .subscribe(forTopic: PUSH_NOTIFICATION_APPARTMENT);
+    }
+  }
+
+  void triggerFetchApartments() {
+    context.read<AppartmentBloc>().add(AppartmentEventFetch());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -81,6 +97,8 @@ class _EditProfileState extends State<EditProfile> {
       userLocation = user.location;
       selctedAvatar = user.avatar;
     }
+    oldSelectedApartment = selectedValue;
+    triggerFetchApartments();
   }
 
   @override
@@ -109,6 +127,7 @@ class _EditProfileState extends State<EditProfile> {
           if (state is UserStateProfileUpdated) {
             CustomDilaogs()
                 .successBox(message: "Profiled updated.", title: "Congrats");
+            checkAndUpdateNotification();
           }
         }
       },
@@ -196,62 +215,86 @@ class _EditProfileState extends State<EditProfile> {
                     suffixIcon: 'assets/icons/pen.png',
                   ),
                   SizedBox(height: 2.h),
-                  DropdownButtonHideUnderline(
-                    child: DropdownButton2<String>(
-                      isExpanded: true,
-                      hint: Row(
-                        children: [
-                          Image.asset("assets/icons/city.png",
-                              height: 2.5.h, color: MyColors.primary),
-                          SizedBox(width: 3.w),
-                          Text(
-                            selectedValue ?? "Choose Apartment",
-                            style: GoogleFonts.plusJakartaSans(
-                              fontSize: 14.4.sp,
-                              fontWeight: selectedValue == null
-                                  ? FontWeight.w400
-                                  : FontWeight.w600,
-                              color: selectedValue == null
-                                  ? Colors.black54
-                                  : Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      items: apartments
-                          .map((String item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: GoogleFonts.plusJakartaSans(
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                      // value: selectedValue,
-                      onChanged: (String? value) {
+                  BlocListener<AppartmentBloc, AppartmentState>(
+                    listener: (BuildContext context, state) {
+                      if (state is AppartmentStateFetching ||
+                          state is AppartmentStateFetchFailure ||
+                          state is AppartmentStateFetched) {
                         setState(() {
-                          selectedValue = value;
+                          isFetchingApartments = state.isLoading;
                         });
-                      },
-                      buttonStyleData: ButtonStyleData(
-                        decoration: BoxDecoration(
-                            color: Color(0xffF7F7F7),
-                            borderRadius: BorderRadius.circular(28)),
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        height: 6.h,
-                        width: 100.w,
-                      ),
 
-                      iconStyleData: IconStyleData(
-                        icon: Icon(
-                          Remix.arrow_down_s_line,
-                          size: 2.5.h,
+                        if (state is AppartmentStateFetchFailure) {}
+                        if (state is AppartmentStateFetched) {
+                          setState(() {
+                            apartments = AppartmentRepo()
+                                .appartments
+                                .map((e) => e.appartment)
+                                .toList();
+                            if (!apartments.contains(selectedValue)) {
+                              selectedValue = null;
+                            }
+                          });
+                        }
+                      }
+                    },
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: Row(
+                          children: [
+                            Image.asset("assets/icons/city.png",
+                                height: 2.5.h, color: MyColors.primary),
+                            SizedBox(width: 3.w),
+                            Text(
+                              selectedValue ?? "Choose Apartment",
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 14.4.sp,
+                                fontWeight: selectedValue == null
+                                    ? FontWeight.w400
+                                    : FontWeight.w600,
+                                color: selectedValue == null
+                                    ? Colors.black54
+                                    : Colors.black,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      menuItemStyleData: const MenuItemStyleData(
-                        height: 40,
+                        items: apartments
+                            .map((String item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        // value: selectedValue,
+                        onChanged: (String? value) {
+                          setState(() {
+                            selectedValue = value;
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                              color: Color(0xffF7F7F7),
+                              borderRadius: BorderRadius.circular(28)),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          height: 6.h,
+                          width: 100.w,
+                        ),
+
+                        iconStyleData: IconStyleData(
+                          icon: Icon(
+                            Remix.arrow_down_s_line,
+                            size: 2.5.h,
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          height: 40,
+                        ),
                       ),
                     ),
                   ),

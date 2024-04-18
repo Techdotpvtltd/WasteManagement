@@ -13,6 +13,7 @@ import 'package:wasteapp/blocs/user/user_bloc.dart';
 import 'package:wasteapp/page/auth/splash_screen.dart';
 import 'package:wasteapp/page/home/drawer.dart';
 
+import 'blocs/appartment/appartment_bloc.dart';
 import 'firebase_options.dart';
 import 'manager/app_bloc_observer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<ConversationBloc>(
                 create: (context) => ConversationBloc()),
             BlocProvider<MessageBloc>(create: (context) => MessageBloc()),
+            BlocProvider<AppartmentBloc>(create: (context) => AppartmentBloc()),
           ],
           child: MaterialApp(
             navigatorKey: navKey,
