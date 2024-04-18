@@ -134,6 +134,8 @@ class _LoginPageState extends State<LoginPage> {
                       hintColor: Color(0xff000000).withOpacity(0.40),
                       isPrefix: true,
                       prefixIcon: "assets/icons/lock.png",
+                      isPasswordField: true,
+                      isObscure: true,
                     ),
                     SizedBox(height: 2.h),
                     Row(

@@ -27,20 +27,20 @@ class SingupPage extends StatefulWidget {
 }
 
 class _SingupPageState extends State<SingupPage> {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmPasswordController =
-        TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
-    void triggerSignupEvent(AuthBloc bloc) {
-      bloc.add(
-        AuthEventRegistering(
-            name: " ",
-            email: emailController.text,
-            password: passwordController.text,
-            confirmPassword: confirmPasswordController.text),
-      );
-    }
+  void triggerSignupEvent(AuthBloc bloc) {
+    bloc.add(
+      AuthEventRegistering(
+          name: " ",
+          email: emailController.text,
+          password: passwordController.text,
+          confirmPassword: confirmPasswordController.text),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +135,8 @@ class _SingupPageState extends State<SingupPage> {
                       hintColor: Color(0xff000000).withOpacity(0.40),
                       isPrefix: true,
                       prefixIcon: "assets/icons/lock.png",
+                      isPasswordField: true,
+                      isObscure: true,
                     ),
                     SizedBox(height: 2.h),
                     textFieldWithPrefixSuffuxIconAndHintText(
@@ -146,6 +148,8 @@ class _SingupPageState extends State<SingupPage> {
                       hintColor: Color(0xff000000).withOpacity(0.40),
                       isPrefix: true,
                       prefixIcon: "assets/icons/lock.png",
+                      isPasswordField: true,
+                      isObscure: true,
                     ),
                     SizedBox(height: 2.h),
                     Row(

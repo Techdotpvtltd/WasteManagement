@@ -19,7 +19,8 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
     bool isPrefix = false,
     color,
     iconColor,
-    bool obsecure = false,
+    bool isPasswordField = false,
+    bool isObscure = false,
     Function(String)? onSubmitted,
     final VoidCallback? onTap,
     TextInputType? keyboardType}) {
@@ -31,7 +32,7 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
         onTap: onTap,
         keyboardType: keyboardType,
         readOnly: onTap != null,
-        obscureText: obsecure,
+        obscureText: isObscure,
         controller: controller,
         onSubmitted: (value) {
           if (onSubmitted != null) {
@@ -48,22 +49,35 @@ Widget textFieldWithPrefixSuffuxIconAndHintText(String hintText,
                 color: hintColor ?? Colors.white.withOpacity(0.60)),
             contentPadding: const EdgeInsets.symmetric(vertical: 20),
             suffixIconConstraints: BoxConstraints(),
-            suffixIcon: isSuffix
+            suffixIcon: isPasswordField
                 ? Padding(
                     padding: const EdgeInsets.only(right: 12),
                     child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            obsecure = !obsecure;
-                          });
-                        },
-                        child: suffixWidget ??
-                            Image.asset(
-                              suffixIcon ?? "assets/icons/eye.png",
-                              height: 2.h,
-                            )),
+                      onTap: () {
+                        setState(
+                          () {
+                            isObscure = !isObscure;
+                          },
+                        );
+                      },
+                      child: Icon(
+                          isObscure ? Icons.visibility : Icons.visibility_off),
+                    ),
                   )
-                : const SizedBox(),
+                : isSuffix
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: InkWell(
+                            onTap: () {
+                              setState(() {});
+                            },
+                            child: suffixWidget ??
+                                Image.asset(
+                                  suffixIcon ?? "assets/icons/eye.png",
+                                  height: 2.h,
+                                )),
+                      )
+                    : const SizedBox(),
             prefixIconConstraints: BoxConstraints(minWidth: 8.w),
             prefixIcon: isPrefix
                 ? InkWell(
