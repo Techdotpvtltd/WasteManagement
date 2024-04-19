@@ -35,6 +35,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<string>0</string>
 	<key>GIDClientID</key>
 	<string>412634432030-tlog1m1lgefniap3a4ir4u7h4214letj.apps.googleusercontent.com</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -57,8 +59,6 @@
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
-		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -80,7 +80,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES </string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-<string>0</string>
 </dict>
 </plist>

@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../main.dart';
 import '../../repos/user_repo.dart';
+import 'package:flutter/foundation.dart' show kReleaseMode;
 
 const SizedBox gapH2 = SizedBox(height: 2);
 const SizedBox gapH4 = SizedBox(height: 4);
@@ -68,13 +69,18 @@ final double screenWidth = MediaQuery.of(navKey.currentContext!).size.width;
 final double screenHeight = MediaQuery.of(navKey.currentContext!).size.height;
 
 //  Firebase Collection Path ====================================
-const FIREBASE_COLLECTION_USER = "users";
-const FIREBASE_COLLECTION_USER_PROFILES = "profiles";
-const FIREBASE_COLLECTION_PICKING_TIMES = "pickingTimes";
-const FIREBASE_COLLECTION_SPECIAL_REQUESTS = "requests";
-const FIREBASE_COLLECTION_CONVERSATIONS = "conversations";
-const FIREBASE_COLLECTION_MESSAGES = "messages";
-const FIREBASE_COLLECTION_APPARTMENT = "appartment";
+const FIREBASE_COLLECTION_USER = "${kReleaseMode ? "" : "dev-"}users";
+const FIREBASE_COLLECTION_USER_PROFILES =
+    "${kReleaseMode ? "" : "dev-"}profiles";
+const FIREBASE_COLLECTION_PICKING_TIMES =
+    "${kReleaseMode ? "" : "dev-"}pickingTimes";
+const FIREBASE_COLLECTION_SPECIAL_REQUESTS =
+    "${kReleaseMode ? "" : "dev-"}requests";
+const FIREBASE_COLLECTION_CONVERSATIONS =
+    "${kReleaseMode ? "" : "dev-"}conversations";
+const FIREBASE_COLLECTION_MESSAGES = "${kReleaseMode ? "" : "dev-"}messages";
+const FIREBASE_COLLECTION_APPARTMENT =
+    "${kReleaseMode ? "" : "dev-"}appartment";
 
 // =========================== Push Notification ================================
 final PUSH_NOTIFICATION_CHAT = "chat-${UserRepo().currentUser.uid}";

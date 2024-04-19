@@ -7,8 +7,6 @@ import 'package:wasteapp/page/auth/intro_page.dart';
 import 'package:wasteapp/page/home/drawer.dart';
 import 'package:wasteapp/utilities/extensions/navigation_service.dart';
 
-import 'addtional_info.dart';
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
