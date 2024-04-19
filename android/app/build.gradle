@@ -74,10 +74,15 @@ flutter {
 }
 
 dependencies {
+    // Avoid update it to latest version.
+    // It's working fine.. So, please don't make the headache for me
+    // and your self. Honestly, I could not sleep two days after made change to this
+    // line. (^_-).
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
     implementation 'androidx.window:window:1.2.0'
     implementation 'androidx.window:window-java:1.2.0'
-
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
 
 }

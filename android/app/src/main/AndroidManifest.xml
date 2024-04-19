@@ -10,6 +10,8 @@
         android:label="MT Waste"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCtEDCykUDeCa7QkT-LK63xQ7msSXNZoq0"/>
        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
        <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
            <intent-filter>
