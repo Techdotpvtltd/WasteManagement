@@ -16,7 +16,7 @@ import '../../config/colors.dart';
 import '../../widgets/custom_button.dart';
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key,  this.isDrawer = false});
+  const ForgotPassword({super.key, this.isDrawer = false});
   final bool isDrawer;
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
@@ -53,8 +53,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               message:
                   "We've just sent you an email containing a password reset link.\nPlease check your mail.",
               title: "Mail Sent!",
-              positiveTitle: "Go back",
+              positiveTitle: widget.isDrawer ? "Close" : "Go back",
               onPositivePressed: () {
+                if (widget.isDrawer) {
+                  // Navigator.of(context).popUntil((route) => route.isFirst);
+                  return;
+                }
                 NavigationService.back();
               },
             );
@@ -75,23 +79,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     children: [
                       widget.isDrawer
                           ? InkWell(
-                        onTap: () {
-                          Get.find<MyDrawerController>().toggleDrawer();
-                        },
-                        child: Image.asset(
-                          "assets/icons/draw.png",
-                          height: 1.8.h,
-                        ),
-                      )
+                              onTap: () {
+                                Get.find<MyDrawerController>().toggleDrawer();
+                              },
+                              child: Image.asset(
+                                "assets/icons/draw.png",
+                                height: 1.8.h,
+                              ),
+                            )
                           : InkWell(
-                        onTap: () {
-                          NavigationService.back();
-                        },
-                        child: Icon(
-                          Remix.arrow_left_s_line,
-                          size: 4.h,
-                        ),
-                      ),
+                              onTap: () {
+                                NavigationService.back();
+                              },
+                              child: Icon(
+                                Remix.arrow_left_s_line,
+                                size: 4.h,
+                              ),
+                            ),
                       Spacer(),
                       textWidget("Forgot Password",
                           fontSize: 19.sp, fontWeight: FontWeight.w700)
